@@ -52,15 +52,20 @@ This function performs ethnicity analysis of a set of samples ad reports the res
 \examples{
 ## Input genotypes as VCF file
 geno = system.file("extdata", "Sample.vcf", package="EthSEQ")
+
 ## Run the analysis
-ethseq.analysis(
+ethseq.Analysis(
   target.vcf = geno,
   out.dir = "/tmp/EthSEQ_Sample/",
   model.available = "SS2",
   model.folder = "/tmp",
   verbose=TRUE,
   composite.model.call.rate = 1)
+
 ## Load annoatations
-annotations = read.delim(file.path("/tmp","Report.txt"),sep="\t",as.is=T,header=T)
+annotations = read.delim("/tmp/EthSEQ_Sample/Report.txt",sep="\t",as.is=T,header=TRUE)
+
+## Delete analysis folder
+unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
 }
 
