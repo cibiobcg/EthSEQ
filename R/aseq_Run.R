@@ -1,3 +1,17 @@
+#' Perform Pileup with ASEQ
+#'
+#' This function performs pileup of set of BAM files using ASEQ on reference model positions.
+#'
+#' @param bam.files Vector of BAM files paths
+#' @param aseq.path Path to ASEQ binary folder
+#' @param genotype.dir Path to genotype output folder
+#' @param out.dir Path to analysis output folder
+#' @param mbq Minimum base quality for ASEQ pileup
+#' @param mrq Minimum read quality for ASEQ pileup
+#' @param mdc Minimum read count to call genotype
+#' @param model.path Path to reference model GDS file
+#' @param cores Number of cores used in the analysis
+#' @return Logical value indicating the success of the analysis
 aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.path,cores)
 {
   tryCatch(
@@ -17,8 +31,8 @@ aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.
         aseq.exec = file.path(aseq.path,"ASEQ")
         if(!file.exists(aseq.exec))
         {
-          download.file("https://demichelislab.unitn.it/lib/exe/fetch.php?media=aseq-linux64.zip",file.path(aseq.path,"ASEQ.zip"))
-          unzip(file.path(aseq.path,"ASEQ.zip"),exdir=aseq.path)
+          download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/ASEQ_binaries/linux64/ASEQ",file.path(aseq.path,"ASEQ"))
+          #unzip(file.path(aseq.path,"ASEQ.zip"),exdir=aseq.path)
           Sys.chmod(aseq.exec, mode = "0755", use_umask = TRUE)
         }
         for (b in bam.files)
@@ -29,13 +43,13 @@ aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.
           system(command,ignore.stderr = T,ignore.stdout = T)
         }
       }
-      if(get.OS()=="darwin")
+      if(get.OS()=="osx")
       {
         aseq.exec = file.path(aseq.path,"ASEQ")
         if(!file.exists(aseq.exec))
         {
-          download.file("https://demichelislab.unitn.it/lib/exe/fetch.php?media=aseq-macosx.zip",file.path(aseq.path,"ASEQ.zip"))
-          unzip(file.path(aseq.path,"ASEQ.zip"),exdir=aseq.path)
+          download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/ASEQ_binaries/macosx/ASEQ",file.path(aseq.path,"ASEQ"))
+          #unzip(file.path(aseq.path,"ASEQ.zip"),exdir=aseq.path)
           command = paste(aseq.exec," vcf=",file.path(out.dir,"ModelPositions.vcf")," bam=",b," mode=GENOTYPE threads=",cores," htperc=0.2 mbq=",mbq,
                           " mrq=",mrq," mdc=",mdc," out=",genotype.dir,sep="")
           system(command,ignore.stderr = T,ignore.stdout = T)
@@ -46,8 +60,8 @@ aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.
         aseq.exec = file.path(aseq.path,"ASEQ.exe")
         if(!file.exists(aseq.exec))
         {
-          download.file("https://demichelislab.unitn.it/lib/exe/fetch.php?media=aseq-win32.zip",file.path(aseq.path,"ASEQ.zip"))
-          unzip(file.path(aseq.path,"ASEQ.zip"),exdir=aseq.path)
+          download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/ASEQ_binaries/win32/ASEQ",file.path(aseq.path,"ASEQ.exe"))
+          #unzip(file.path(aseq.path,"ASEQ.zip"),exdir=aseq.path)
           command = paste(aseq.exec," vcf=",file.path(out.dir,"ModelPositions.vcf")," bam=",b," mode=GENOTYPE threads=",cores," htperc=0.2 mbq=",mbq,
                           " mrq=",mrq," mdc=",mdc," out=",genotype.dir,sep="")
           system(command,ignore.stderr = T,ignore.stdout = T)

@@ -21,7 +21,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{model.gds}{Path to a GDS file specifying the reference model}
 
-\item{model.available}{String specifying the pre-computed reference model to use (SS2,SS4,NimblegenV3,HALO,Exonic)}
+\item{model.available}{String specifying the pre-computed reference model to use (SS2, SS4, NimblegenV3, HALO, Exonic)}
 
 \item{model.folder}{Path to the folder where reference models are already present of downloaded when needed}
 
@@ -50,22 +50,99 @@ Logical value indicating the success of the analysis
 This function performs ethnicity analysis of a set of samples ad reports the results.
 }
 \examples{
-## Input genotypes as VCF file
-geno = system.file("extdata", "Sample.vcf", package="EthSEQ")
 
-## Run the analysis
-ethseq.Analysis(
-  target.vcf = geno,
+################################################################
+#### Perform ethnicity analysis with genotype from VCF file
+################################################################
+
+## Run the analysis on a toy example with only 10000 SNPs
+annotations = ethseq.Analysis(
+  target.vcf = system.file("extdata", "Sample_SS2_10000SNPs.vcf", package="EthSEQ"),
   out.dir = "/tmp/EthSEQ_Sample/",
-  model.available = "SS2",
-  model.folder = "/tmp",
+  model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds", package="EthSEQ"),
   verbose=TRUE,
   composite.model.call.rate = 1)
 
-## Load annoatations
-annotations = read.delim("/tmp/EthSEQ_Sample/Report.txt",sep="\t",as.is=T,header=TRUE)
+## Load PCA coordinates
+PCAcoord = read.delim("/tmp/EthSEQ_Sample/Report.PCAcoord",sep="\t",as.is=TRUE,header=TRUE)
 
 ## Delete analysis folder
 unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
+
+
+################################################################
+#### Perform ethnicity analysis with genotype from VCF file
+#### and using pre-computed reference Model
+################################################################
+
+# ## Uncomment to test the functionality
+# ## Run the analysis
+# annotations = ethseq.Analysis(
+#   target.vcf = system.file("extdata", "Sample_SS2.vcf", package="EthSEQ"),,
+#   out.dir = "/tmp/EthSEQ_Sample/",
+#   model.available = "SS2",
+#   model.folder = "/tmp/EthSEQ_Sample/"
+#   verbose=TRUE,
+#   composite.model.call.rate = 1)
+#
+# ## Delete analysis folder
+# unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
+
+
+################################################################
+#### Perform ethnicity analysis from BAM files
+################################################################
+
+# ## Uncomment to test the functionality
+# ## Download BAM file
+# dir.create("/tmp/EthSEQ_BAMs/")
+# download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/NA07357_only10000SNPs.bam",
+#   destfile = "/tmp/EthSEQ_BAMs/Sample.bam")
+# download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/NA07357_only10000SNPs.bam.bai",
+#   destfile = "/tmp/EthSEQ_BAMs/Sample.bam.bai")
+#
+# ## Create BAM files list
+# write("/tmp/EthSEQ_BAMs/Sample.bam","/tmp/EthSEQ_BAMs/BAMs_List.txt")
+#
+# ## Run the analysis
+# annotations = ethseq.Analysis(
+#   bam.list = "/tmp/EthSEQ_BAMs/BAMs_List.txt",
+#   out.dir = "/tmp/EthSEQ_Sample/",
+#   model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds", package="EthSEQ"),
+#   verbose=TRUE,
+#   aseq.path = "/tmp/EthSEQ_Sample/",
+#   mbq=20,
+#   mrq=20,
+#   mdc=10,
+#   run.genotype = TRUE,
+#   composite.model.call.rate = 1,
+#   cores=1)
+#
+# unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
+
+
+################################################################
+#### Perform ethnicity with genotype from GDS file
+#### ad multi-step refinement analysis
+################################################################
+
+## Create multi-step refinement matrix
+m = matrix("",ncol=2,nrow=2)
+m[1,1] = "SAS|EUR|EAS"
+m[2,2] = "SAS|EUR"
+
+## Run the analysis on a toy example with only 10000 SNPs
+annotations = ethseq.Analysis(
+  target.gds = system.file("extdata", "Target_SS2_10000SNPs.gds", package="EthSEQ"),
+  out.dir = "/tmp/EthSEQ_Sample/",
+  model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds", package="EthSEQ"),
+  verbose=TRUE,
+  composite.model.call.rate = 1,
+  refinement.analysis = m)
+
+## Delete analysis folder
+unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
+
+
 }
 

@@ -79,7 +79,7 @@ ethseq.Analysis <- function(
     ## Execute ASEQ to generate genotypes
     table = data.frame(sample=gsub(".bam","",basename(bam.files)),bam=bam.files)
     genotype.dir = file.path(out.dir,"ASEQGenotypes","")
-    if(!file.exists(genotype))
+    if(!file.exists(genotype.dir))
     {
       message.Date(paste("Create ",genotype.dir," folder",sep=""))
       dir.create(genotype.dir)
@@ -110,7 +110,7 @@ ethseq.Analysis <- function(
   ### Perform PCA
   message.Date("Perform PCA on aggregated model")
   model <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
-  pca <- snpgdsPCA(model,num.thread = cores,eigen.method = "DSPEVX",verbose = TRUE,missing.rate = 1-composite.model.call.rate)
+  pca <- snpgdsPCA(model,num.thread = cores,eigen.method = "DSPEVX",verbose = verbose,missing.rate = 1-composite.model.call.rate)
   sample.id <- read.gdsn(index.gdsn(model, "sample.id"))
   pop_code <- read.gdsn(index.gdsn(model, "sample.annot/pop.group"))
   tab <- data.frame(sample.id = pca$sample.id,
@@ -150,7 +150,7 @@ ethseq.Analysis <- function(
       sample.id <- read.gdsn(index.gdsn(model, "sample.id"))
       pop_code <- read.gdsn(index.gdsn(model, "sample.annot/pop.group"))
       samples = c(samples,sample.id[which(as.character(pop_code)%in%strsplit(refinement.analysis[[s]],"\\|")[[1]])])
-      pca <- snpgdsPCA(model,num.thread = cores,eigen.method = "DSPEVX",verbose = FALSE,sample.id = samples)
+      pca <- snpgdsPCA(model,num.thread = cores,eigen.method = "DSPEVX",verbose = verbose,sample.id = samples)
       
       idx = which(as.character(pop_code)%in%c("ND",strsplit(refinement.analysis[[s]],"\\|")[[1]]))
       tab <- data.frame(sample.id = pca$sample.id,
@@ -184,6 +184,8 @@ ethseq.Analysis <- function(
     out[,1] = gsub("target.","",out[,1])
     write.table(out,file.path(out.dir,"Report.txt"),sep="\t",row.names=F,quote=F)
     
+    res = out
+    
   } else
   {
     ### Print ethnicity annotations on tex tab-delimited file
@@ -192,6 +194,7 @@ ethseq.Analysis <- function(
     out = out[,c(1,2,6,7)]
     out[,1] = gsub("target.","",out[,1])
     write.table(out,file.path(out.dir,"Report.txt"),sep="\t",row.names=F,quote=F)
+    res = out
     out = annotations[[1]]
     out = out[,c(1,3:4)]
     out[,1] = gsub("target.","",out[,1])
@@ -203,5 +206,5 @@ ethseq.Analysis <- function(
   }
   
   message.Date("Computation end")
-  return(out)
+  return(res)
 }
