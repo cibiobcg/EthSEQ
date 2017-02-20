@@ -22,7 +22,7 @@ combine.Models <- function(reference.fn,target.fn,out.dir,composite.model.call.r
           all(read.gdsn(index.gdsn(target,"snp.chromosome"))==read.gdsn(index.gdsn(reference,"snp.chromosome")))&
           all(read.gdsn(index.gdsn(target,"snp.position"))==read.gdsn(index.gdsn(reference,"snp.position")))))
   {
-    return(NA)
+    return(FALSE)
   }
   
   idx = which(target.alleles!=reference.alleles)
@@ -62,5 +62,6 @@ combine.Models <- function(reference.fn,target.fn,out.dir,composite.model.call.r
   add.gdsn(genofile, "snp.alt", reference.alt)
   
   snpgdsClose(genofile)
+  return(TRUE)
   
 }

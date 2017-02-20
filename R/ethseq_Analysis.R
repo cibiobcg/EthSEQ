@@ -1,4 +1,4 @@
-#' Perform Ethnicity Analysis
+#' Ethnicity analysis from whole-exome sequencing data
 #'
 #' This function performs ethnicity analysis of a set of samples ad reports the results.
 #'
@@ -56,7 +56,7 @@ ethseq.Analysis <- function(
     if(is.na(model.available))
     {
       message.Date("ERROR: model.gds or model.available variables should be specified.")
-      return(NA)
+      return(FALSE)
     }
     model.path = get.Model(model.available,model.folder)
   } else
@@ -69,7 +69,7 @@ ethseq.Analysis <- function(
     if(is.na(bam.list))
     {
       message.Date("ERROR: target.vcf or bam.list variables should be specified.")
-      return(NA)
+      return(FALSE)
     }
     
     ### Check if all BAM files exists
@@ -87,16 +87,25 @@ ethseq.Analysis <- function(
     
     message.Date(paste("Run ASEQ to generate genotypes for ",length(bam.files)," samples",sep=""))
     if(run.genotype)
-      aseq.Run(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.path,cores)
+    {
+      res = aseq.Run(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.path,cores)
+      if(!res)
+      {
+        message.Date("ERROR: Error while executing ASEQ.")
+        return(FALSE)
+      }
+    }
     
     ## Create Target Model GDS file
     message.Date("Create target model")
     create.Target.Model(sample.names,genotype.dir,out.dir,cores)
+    
     target.model = file.path(out.dir,"Target.gds")
   } else if(is.na(target.gds))
   {
     message.Date("Create target model from VCF")
     create.Target.Model.From.VCF(target.vcf,out.dir,cores)
+
     target.model = file.path(out.dir,"Target.gds")
   } else
   {
@@ -105,10 +114,16 @@ ethseq.Analysis <- function(
   
   ### Create Composite model
   message.Date("Create aggregated model")
-  combine.Models(model.path,target.model,out.dir,composite.model.call.rate)
+  res = combine.Models(model.path,target.model,out.dir,composite.model.call.rate)
+  if(!res)
+  {
+    message.Date("ERROR: Target and reference models are not compatible.")
+    return(FALSE)
+  }
   
   ### Perform PCA
   message.Date("Perform PCA on aggregated model")
+
   model <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
   pca <- snpgdsPCA(model,num.thread = cores,eigen.method = "DSPEVX",verbose = verbose,missing.rate = 1-composite.model.call.rate)
   sample.id <- read.gdsn(index.gdsn(model, "sample.id"))
@@ -120,13 +135,19 @@ ethseq.Analysis <- function(
                     EV3 = pca$eigenvect[,3],
                     stringsAsFactors = FALSE)
   snpgdsClose(model)
-  
+
   ### Infer ethnicity
   message.Date("Infer ethnicities")
   annotations = get.Ethnicity(tab)
   
   if(!all(is.na(refinement.analysis)))
   {
+    res = check.Matrix(refinement.analysis)
+    if(!res)
+    {
+      message.Date("ERROR: Refinement analysis matrix is wrongly formatted.")
+      return(FALSE)
+    }
     refinement.index = 1
     refinement.leafs = get.Position.Leafs(refinement.analysis)
     refinement.position = get.Position.Matrix(refinement.analysis)
@@ -184,8 +205,6 @@ ethseq.Analysis <- function(
     out[,1] = gsub("target.","",out[,1])
     write.table(out,file.path(out.dir,"Report.txt"),sep="\t",row.names=F,quote=F)
     
-    res = out
-    
   } else
   {
     ### Print ethnicity annotations on tex tab-delimited file
@@ -194,7 +213,6 @@ ethseq.Analysis <- function(
     out = out[,c(1,2,6,7)]
     out[,1] = gsub("target.","",out[,1])
     write.table(out,file.path(out.dir,"Report.txt"),sep="\t",row.names=F,quote=F)
-    res = out
     out = annotations[[1]]
     out = out[,c(1,3:4)]
     out[,1] = gsub("target.","",out[,1])
@@ -206,5 +224,5 @@ ethseq.Analysis <- function(
   }
   
   message.Date("Computation end")
-  return(res)
+  return(TRUE)
 }

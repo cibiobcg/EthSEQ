@@ -1,3 +1,22 @@
+check.Matrix <- function(m,populations)
+{
+  pos = c()
+  for(i in 1:nrow(m))
+  {
+    id = which(m[i,]!="")
+    if(length(id)==0)
+      return(FALSE)
+    res = TRUE
+    if(id>1)
+      res = all(c(1:(id-1))%in%pos)
+    pos = c(pos,id)
+    pops = strsplit(m[i,id],"\\|")[[1]]
+    if(!all(pops%in%populations)|!res)
+      return(FALSE)
+  }
+  return(TRUE)
+}
+
 get.Position.Leafs <- function(m)
 {
   leaf = rep(FALSE,nrow(m))
