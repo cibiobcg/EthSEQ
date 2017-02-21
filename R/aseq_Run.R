@@ -49,7 +49,10 @@ aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.
         if(!file.exists(aseq.exec))
         {
           download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/ASEQ_binaries/macosx/ASEQ",file.path(aseq.path,"ASEQ"))
-          #unzip(file.path(aseq.path,"ASEQ.zip"),exdir=aseq.path)
+          Sys.chmod(aseq.exec, mode = "0755", use_umask = TRUE)
+        }
+        for (b in bam.files)
+        {
           command = paste(aseq.exec," vcf=",file.path(out.dir,"ModelPositions.vcf")," bam=",b," mode=GENOTYPE threads=",cores," htperc=0.2 mbq=",mbq,
                           " mrq=",mrq," mdc=",mdc," out=",genotype.dir,sep="")
           system(command,ignore.stderr = T,ignore.stdout = T)
@@ -61,7 +64,9 @@ aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.
         if(!file.exists(aseq.exec))
         {
           download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/ASEQ_binaries/win32/ASEQ",file.path(aseq.path,"ASEQ.exe"))
-          #unzip(file.path(aseq.path,"ASEQ.zip"),exdir=aseq.path)
+        }
+        for (b in bam.files)
+        {
           command = paste(aseq.exec," vcf=",file.path(out.dir,"ModelPositions.vcf")," bam=",b," mode=GENOTYPE threads=",cores," htperc=0.2 mbq=",mbq,
                           " mrq=",mrq," mdc=",mdc," out=",genotype.dir,sep="")
           system(command,ignore.stderr = T,ignore.stdout = T)
