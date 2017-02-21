@@ -63,7 +63,7 @@ aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.
         aseq.exec = file.path(aseq.path,"ASEQ.exe")
         if(!file.exists(aseq.exec))
         {
-          download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/ASEQ_binaries/win32/ASEQ",file.path(aseq.path,"ASEQ.exe"))
+          download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/ASEQ_binaries/win32/ASEQ.exe",file.path(aseq.path,"ASEQ.exe"))
         }
         for (b in bam.files)
         {
