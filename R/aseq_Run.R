@@ -74,5 +74,7 @@ aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.
       }
     }, error = function(e) {
       message.Date(e)
+      retunr(FALSE)
     })
+  return(TRUE)
 }
