@@ -1,17 +1,3 @@
-#' Perform Pileup with ASEQ
-#'
-#' This function performs pileup of set of BAM files using ASEQ on reference model positions.
-#'
-#' @param bam.files Vector of BAM files paths
-#' @param aseq.path Path to ASEQ binary folder
-#' @param genotype.dir Path to genotype output folder
-#' @param out.dir Path to analysis output folder
-#' @param mbq Minimum base quality for ASEQ pileup
-#' @param mrq Minimum read quality for ASEQ pileup
-#' @param mdc Minimum read count to call genotype
-#' @param model.path Path to reference model GDS file
-#' @param cores Number of cores used in the analysis
-#' @return Logical value indicating the success of the analysis
 aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.path,cores)
 {
   tryCatch(
@@ -74,7 +60,7 @@ aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.
       }
     }, error = function(e) {
       message.Date(e)
-      retunr(FALSE)
+      return(FALSE)
     })
   return(TRUE)
 }

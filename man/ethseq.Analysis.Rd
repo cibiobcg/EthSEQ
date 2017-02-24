@@ -21,7 +21,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{model.gds}{Path to a GDS file specifying the reference model}
 
-\item{model.available}{String specifying the pre-computed reference model to use (SS2, SS4, NimblegenV3, HALO, Exonic)}
+\item{model.available}{String specifying the pre-computed reference model to use (SS2,SS4,NimblegenV3,HALO,Exonic)}
 
 \item{model.folder}{Path to the folder where reference models are already present of downloaded when needed}
 
@@ -143,6 +143,4 @@ annotations = ethseq.Analysis(
 ## Delete analysis folder
 unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
 
-
 }
-
