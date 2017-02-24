@@ -2,7 +2,7 @@
 % Please edit documentation in R/ethseq_Analysis.R
 \name{ethseq.Analysis}
 \alias{ethseq.Analysis}
-\title{Ethnicity analysis from whole-exome sequencing data of a set of individuals}
+\title{Ethnicity analysis from whole-exome sequencing data}
 \usage{
 ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
   out.dir = "/tmp", model.gds = NA, model.available = NA,
