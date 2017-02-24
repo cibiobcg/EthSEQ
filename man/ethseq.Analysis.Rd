@@ -2,7 +2,7 @@
 % Please edit documentation in R/ethseq_Analysis.R
 \name{ethseq.Analysis}
 \alias{ethseq.Analysis}
-\title{Ethnicity analysis from whole-exome sequencing data}
+\title{Ethnicity analysis from whole-exome sequencing data of a set of individuals}
 \usage{
 ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
   out.dir = "/tmp", model.gds = NA, model.available = NA,
@@ -21,7 +21,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{model.gds}{Path to a GDS file specifying the reference model}
 
-\item{model.available}{String specifying the pre-computed reference model to use (SS2,SS4,NimblegenV3,HALO,Exonic)}
+\item{model.available}{String specifying the pre-computed reference model to use (SS2, SS4, NimblegenV3, HALO)}
 
 \item{model.folder}{Path to the folder where reference models are already present of downloaded when needed}
 
@@ -29,7 +29,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{aseq.path}{Path to the folder where ASEQ binary is available of is downloaded when needed}
 
-\item{mbq}{Minmum base quality used in the pileup by ASEQ}
+\item{mbq}{Minimum base quality used in the pileup by ASEQ}
 
 \item{mrq}{Minimum read quality used in the piluep by ASEQ}
 
@@ -39,7 +39,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{verbose}{Print detaild information}
 
-\item{composite.model.call.rate}{SNP call rate used to run Principal Component Analysis (PCA)}
+\item{composite.model.call.rate}{SNPs call rate used to run Principal Component Analysis (PCA)}
 
 \item{refinement.analysis}{Matrix specyfing a tree of ethnicities}
 }
@@ -57,14 +57,17 @@ This function performs ethnicity analysis of a set of samples ad reports the res
 
 ## Run the analysis on a toy example with only 10000 SNPs
 annotations = ethseq.Analysis(
-  target.vcf = system.file("extdata", "Sample_SS2_10000SNPs.vcf", package="EthSEQ"),
+  target.vcf = system.file("extdata", "Sample_SS2_10000SNPs.vcf",
+	package="EthSEQ"),
   out.dir = "/tmp/EthSEQ_Sample/",
-  model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds", package="EthSEQ"),
+  model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds",
+	package="EthSEQ"),
   verbose=TRUE,
   composite.model.call.rate = 1)
 
 ## Load PCA coordinates
-PCAcoord = read.delim("/tmp/EthSEQ_Sample/Report.PCAcoord",sep="\t",as.is=TRUE,header=TRUE)
+PCAcoord = read.delim("/tmp/EthSEQ_Sample/Report.PCAcoord",
+	sep="\t",as.is=TRUE,header=TRUE)
 
 ## Delete analysis folder
 unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
@@ -78,7 +81,7 @@ unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
 # ## Uncomment to test the functionality
 # ## Run the analysis
 # annotations = ethseq.Analysis(
-#   target.vcf = system.file("extdata", "Sample_SS2.vcf", package="EthSEQ"),,
+#   target.vcf = system.file("extdata","Sample_SS2.vcf",package="EthSEQ"),
 #   out.dir = "/tmp/EthSEQ_Sample/",
 #   model.available = "SS2",
 #   model.folder = "/tmp/EthSEQ_Sample/"
@@ -96,10 +99,12 @@ unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
 # ## Uncomment to test the functionality
 # ## Download BAM file
 # dir.create("/tmp/EthSEQ_BAMs/")
-# download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/NA07357_only10000SNPs.bam",
-#   destfile = "/tmp/EthSEQ_BAMs/Sample.bam")
-# download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/NA07357_only10000SNPs.bam.bai",
-#   destfile = "/tmp/EthSEQ_BAMs/Sample.bam.bai")
+# download.file(
+#  "https://github.com/aromanel/EthSEQ_Data/raw/master/NA07357_only10000SNPs.bam",
+#  destfile = "/tmp/EthSEQ_BAMs/Sample.bam")
+# download.file(
+#  "https://github.com/aromanel/EthSEQ_Data/raw/master/NA07357_only10000SNPs.bam.bai",
+#  destfile = "/tmp/EthSEQ_BAMs/Sample.bam.bai")
 #
 # ## Create BAM files list
 # write("/tmp/EthSEQ_BAMs/Sample.bam","/tmp/EthSEQ_BAMs/BAMs_List.txt")
@@ -108,7 +113,8 @@ unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
 # annotations = ethseq.Analysis(
 #   bam.list = "/tmp/EthSEQ_BAMs/BAMs_List.txt",
 #   out.dir = "/tmp/EthSEQ_Sample/",
-#   model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds", package="EthSEQ"),
+#   model.gds = system.file("extdata","Reference_SS2_10000SNPs.gds",
+#      package="EthSEQ"),
 #   verbose=TRUE,
 #   aseq.path = "/tmp/EthSEQ_Sample/",
 #   mbq=20,
@@ -133,9 +139,11 @@ m[2,2] = "SAS|EUR"
 
 ## Run the analysis on a toy example with only 10000 SNPs
 annotations = ethseq.Analysis(
-  target.gds = system.file("extdata", "Target_SS2_10000SNPs.gds", package="EthSEQ"),
+  target.gds = system.file("extdata","Target_SS2_10000SNPs.gds",
+	package="EthSEQ"),
   out.dir = "/tmp/EthSEQ_Sample/",
-  model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds", package="EthSEQ"),
+  model.gds = system.file("extdata","Reference_SS2_10000SNPs.gds",
+	package="EthSEQ"),
   verbose=TRUE,
   composite.model.call.rate = 1,
   refinement.analysis = m)
