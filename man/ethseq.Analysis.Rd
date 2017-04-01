@@ -21,7 +21,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{model.gds}{Path to a GDS file specifying the reference model}
 
-\item{model.available}{String specifying the pre-computed reference model to use (SS2, SS4, NimblegenV3, HALO)}
+\item{model.available}{String specifying the pre-computed reference model to use (SS2, SS2.Light, SS4, NimblegenV3, HALO). Models with postfix .Light are built with less reference samples.}
 
 \item{model.folder}{Path to the folder where reference models are already present or downloaded when needed}
 
@@ -51,25 +51,22 @@ This function performs ethnicity analysis of a set of samples from a list of BAM
 }
 \examples{
 
-################################################################
-#### Perform ethnicity analysis with genotype from VCF file
-################################################################
-
-## Run the analysis on a toy example with only 10000 SNPs
-annotations = ethseq.Analysis(
-  target.vcf = system.file("extdata", "Sample_SS2_10000SNPs.vcf",
+## Run the analysis
+ethseq.Analysis(
+  target.vcf = system.file("extdata", "Samples_SS2_10000SNPs.vcf",
 	package="EthSEQ"),
-  out.dir = "/tmp/EthSEQ_Sample/",
+  out.dir = "/tmp/EthSEQ_Analysis/",
   model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds",
 	package="EthSEQ"),
   verbose=TRUE,
   composite.model.call.rate = 1)
 
-## Load PCA coordinates
-PCAcoord = read.delim("/tmp/EthSEQ_Sample/Report.PCAcoord",
+## Load and display computed ethnicity annotations
+ethseq.annotations = read.delim("/tmp/EthSEQ_Analysis/Report.txt",
 	sep="\t",as.is=TRUE,header=TRUE)
+head(ethseq.annotations)
 
 ## Delete analysis folder
-unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
+unlink("/tmp/EthSEQ_Analysis/",recursive=TRUE)
 
 }
