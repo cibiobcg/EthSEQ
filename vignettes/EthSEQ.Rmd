@@ -70,7 +70,7 @@ unlink("/tmp/EthSEQ_Data/",recursive=TRUE)
 
 Analysis of individual NA07357 from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data. Genotype data for 10,000 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ with a BAM file. reference model is provided in GDS format and describes genotype data for 1,000 Genome Project individuls for the same SNPs set. Note than the BAM given in input to EthSEQ is a toy BAM file containing only reads overlapping the positions of the 10,000 SNPs considered in the analysis.
 
-```{r}
+```
 library (EthSEQ)
 
 ## Download BAM file used in the analysis
@@ -109,7 +109,7 @@ unlink("/tmp/EthSEQ_Analysis/",recursive=TRUE)
 
 Multi-step refinement Analysis of individuals from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data (set of analysed individuals and individuals used for the reference model are disjoint). Genotype data for 10,000 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ in GDS format while reference model is provided in GDS format and describes genotype data for 1,000 Genome Project reference individuls for the same SNPs set. Multi-step refinement tree is constructed as matrix. Non-empty cells in columns i contains parent nodes for non-empty cells in columns i+1. Ethnic groups in child nodes should be included in parent nodes, while siblings node ethnic groups should be disjoint. Consult EthSEQ paper supplementary material for more complicated examples.  
 
-```{r}
+```
 library(EthSEQ)
 
 ## Create multi-step refinement matrix
@@ -136,7 +136,7 @@ unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
 
 Construction of a reference model from two genotype data files in VCF format and a corresponding annotation files which described ethnicity and sex of each sample contained in the genotype data files.
 
-```{r}
+```
 library(EthSEQ)
 
 ### Load list of VCF files paths
