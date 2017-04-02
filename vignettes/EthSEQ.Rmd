@@ -134,7 +134,7 @@ ethseq.Analysis(
 unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
 ```
 
-## Create a reference model from multiple VCF gentotype data files
+## Create a reference model from multiple VCF genotype data files
 
 Construction of a reference model from two genotype data files in VCF format and a corresponding annotation files which described ethnicity and sex of each sample contained in the genotype data files.
 
