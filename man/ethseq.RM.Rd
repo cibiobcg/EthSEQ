@@ -41,18 +41,21 @@ vcf.files =
 annot.samples = read.delim(system.file("extdata", "Annotations_Test.txt",
 	package="EthSEQ"))
 
+out.dir = tempdir()
+dir.create(out.dir)
+
 ### Create reference model
 ethseq.RM(
   vcf.fn = vcf.files,
   annotations = annot.samples,
-  out.dir = "/tmp",
+  out.dir = out.dir,
   model.name = "Reference.Model",
   bed.fn = NA,
   phased = FALSE,
   call.rate = 1,
   cores = 1)
 
-unlink("/tmp/Reference.Model.gds")
+unlink(out.dir,recursive=TRUE)
 
 }
 
