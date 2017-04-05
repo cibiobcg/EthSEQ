@@ -40,7 +40,7 @@ ethseq.Analysis <- function(
 {
   
   ## Version
-  EthSEQ_version <- "2.0.1"
+  EthSEQ_version <- "2.0.2"
   message.Date(paste("Running EthSEQ v",EthSEQ_version,sep=""))
   message.Date(paste("Working directory: ",out.dir,sep=""))
   
