@@ -15,26 +15,28 @@ You can either install EthSEQ from github repository using devtools package or d
 
 Analysis of 6 individuals from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data. Genotype data for 10,000 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ in VCF format while reference model is provided in GDS format and describes genotype data for 1,000 Genome Project individuls for the same SNPs set. 
 
-```{r}
+```
 library(EthSEQ)
+
+out.dir = file.path(tempdir(),"EthSEQ_Analysis/")
 
 ## Run the analysis
 ethseq.Analysis(
   target.vcf = system.file("extdata", "Samples_SS2_10000SNPs.vcf",
 	package="EthSEQ"),
-  out.dir = "/tmp/EthSEQ_Analysis/",
+  out.dir = out.dir,
   model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds",
 	package="EthSEQ"),
   verbose=TRUE,
   composite.model.call.rate = 1)
 
 ## Load and display computed ethnicity annotations
-ethseq.annotations = read.delim("/tmp/EthSEQ_Analysis/Report.txt",
+ethseq.annotations = read.delim(file.path(out.dir,"Report.txt"),
 	sep="\t",as.is=TRUE,header=TRUE)
 head(ethseq.annotations)
 
 ## Delete analysis folder
-unlink("/tmp/EthSEQ_Analysis/",recursive=TRUE)
+unlink(out.dir,recursive=TRUE)
 ```
 
 ## Perform ethnicity analysis using pre-computed reference model
@@ -44,23 +46,26 @@ Analysis of 6 individuals from 1,000 Genome Project using a reference model buil
 ```
 library(EthSEQ)
 
+data.dir = file.path(tempdir(),"EthSEQ_Data/")
+out.dir = file.path(tempdir(),"EthSEQ_Analysis/")
+
 ## Download genotype data in VCF format
-dir.create("/tmp/EthSEQ_Data/")
+dir.create(data.dir)
 download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/Sample_SS2.vcf",
-  destfile = "/tmp/EthSEQ_Data/Sample_SS2.vcf")
+  destfile = file.path(data.dir,"Sample_SS2.vcf"))
 
 ## Run the analysis
 ethseq.Analysis(
-  target.vcf = "/tmp/EthSEQ_Data/Sample_SS2.vcf",
-  out.dir = "/tmp/EthSEQ_Analysis/",
+  target.vcf =  file.path(data.dir,"Sample_SS2.vcf"),
+  out.dir = out.dir,
   model.available = "SS2.Light",
-  model.folder = "/tmp/EthSEQ_Data/",
+  model.folder = data.dir,
   verbose=TRUE,
   composite.model.call.rate = 1)
 
 ## Delete analysis folder
-unlink("/tmp/EthSEQ_Analysis/",recursive=TRUE)
-unlink("/tmp/EthSEQ_Data/",recursive=TRUE)
+unlink(data.dir,recursive=TRUE)
+unlink(out.dir,recursive=TRUE)
 ```
 
 ## Perform ethnicity analysis from BAM files list
@@ -68,28 +73,31 @@ unlink("/tmp/EthSEQ_Data/",recursive=TRUE)
 Analysis of individual NA07357 from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data. Genotype data for 10,000 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ with a BAM file. reference model is provided in GDS format and describes genotype data for 1,000 Genome Project individuls for the same SNPs set. Note than the BAM given in input to EthSEQ is a toy BAM file containing only reads overlapping the positions of the 10,000 SNPs considered in the analysis.
 
 ```
-library (EthSEQ)
+library(EthSEQ)
+
+data.dir = file.path(tempdir(),"EthSEQ_Data")
+out.dir = file.path(tempdir(),"EthSEQ_Analysis")
 
 ## Download BAM file used in the analysis
-dir.create("/tmp/EthSEQ_BAMs/")
+dir.create(data.dir)
 download.file(
  "https://github.com/aromanel/EthSEQ_Data/raw/master/NA07357_only10000SNPs.bam",
- destfile = "/tmp/EthSEQ_BAMs/Sample.bam")
+ destfile = file.path(data.dir,"Sample.bam"))
 download.file(
  "https://github.com/aromanel/EthSEQ_Data/raw/master/NA07357_only10000SNPs.bam.bai",
- destfile = "/tmp/EthSEQ_BAMs/Sample.bam.bai")
+ destfile = file.path(data.dir,"Sample.bam.bai"))
 
 ## Create BAM files list 
-write("/tmp/EthSEQ_BAMs/Sample.bam","/tmp/EthSEQ_BAMs/BAMs_List.txt")
+write(file.path(data.dir,"Sample.bam"),file.path(data.dir,"BAMs_List.txt"))
 
 ## Run the analysis
 ethseq.Analysis(
-  bam.list = "/tmp/EthSEQ_BAMs/BAMs_List.txt",
-  out.dir = "/tmp/EthSEQ_Analysis/",
+  bam.list = file.path(data.dir,"BAMs_List.txt"),
+  out.dir = out.dir,
   model.gds = system.file("extdata","Reference_SS2_10000SNPs.gds",
      package="EthSEQ"),
   verbose=TRUE,
-  aseq.path = "/tmp/EthSEQ_Analysis/",
+  aseq.path = out.dir,
   mbq=20,
   mrq=20,
   mdc=10,
@@ -98,8 +106,8 @@ ethseq.Analysis(
   cores=1)
 
 ## Delete analysis folder
-unlink("/tmp/EthSEQ_BAMs/",recursive=TRUE)
-unlink("/tmp/EthSEQ_Analysis/",recursive=TRUE)
+unlink(data.dir,recursive=TRUE)
+unlink(out.dir,recursive=TRUE)
 ```
 
 ## Perform ethnicity analysis using multi-step refinement
@@ -109,6 +117,14 @@ Multi-step refinement Analysis of individuals from 1,000 Genome Project using a 
 ```
 library(EthSEQ)
 
+out.dir = file.path(tempdir(),"EthSEQ_Analysis")
+data.dir = file.path(tempdir(),"EthSEQ_Data")
+
+## Download genotype data in VCF format
+dir.create(data.dir)
+download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/Target_SS2_10000SNPs.gds",
+  destfile = file.path(data.dir,"Target_SS2_10000SNPs.gds"))
+
 ## Create multi-step refinement matrix
 m = matrix("",ncol=2,nrow=2)
 m[1,1] = "SAS|EUR|EAS"
@@ -116,9 +132,8 @@ m[2,2] = "SAS|EUR"
 
 ## Run the analysis on a toy example with only 10000 SNPs
 ethseq.Analysis(
-  target.gds = system.file("extdata","Target_SS2_10000SNPs.gds",
-	package="EthSEQ"),
-  out.dir = "/tmp/EthSEQ_Analysis/",
+  target.gds = file.path(data.dir,"Target_SS2_10000SNPs.gds"),
+  out.dir = out.dir,
   model.gds = system.file("extdata","Reference_SS2_10000SNPs.gds",
 	package="EthSEQ"),
   verbose=TRUE,
@@ -126,7 +141,7 @@ ethseq.Analysis(
   refinement.analysis = m)
 
 ## Delete analysis folder
-unlink("/tmp/EthSEQ_Sample/",recursive=TRUE)
+unlink(out.dir,recursive=TRUE)
 ```
 
 ## Create a reference model from multiple VCF genotype data files
@@ -135,6 +150,9 @@ Construction of a reference model from two genotype data files in VCF format and
 
 ```
 library(EthSEQ)
+
+out.dir = tempdir()
+dir.create(out.dir)
 
 ### Load list of VCF files paths
 vcf.files = 
@@ -149,7 +167,7 @@ annot.samples = read.delim(system.file("extdata", "Annotations_Test.txt",
 ethseq.RM(
   vcf.fn = vcf.files,
   annotations = annot.samples,
-  out.dir = "/tmp",
+  out.dir = out.dir,
   model.name = "Reference.Model",
   bed.fn = NA,
   phased = FALSE,
@@ -157,6 +175,6 @@ ethseq.RM(
   cores = 1)
 
 ## Delete example file
-unlink("/tmp/Reference.Model.gds")
+unlink(out.dir,recursive=TRUE)
 ```
 
