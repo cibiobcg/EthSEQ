@@ -7,6 +7,10 @@ about individual’s inferred ethnicity, including aggregated visual reports.
 
 ***
 
+## Installation
+
+You can either install EthSEQ from github repository using devtools package or directly from CRAN repository.
+
 ## Perform ethnicity analysis with individuals genotype data from VCF file
 
 Analysis of 6 individuals from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data. Genotype data for 10,000 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ in VCF format while reference model is provided in GDS format and describes genotype data for 1,000 Genome Project individuls for the same SNPs set. 
