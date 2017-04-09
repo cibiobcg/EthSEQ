@@ -21,7 +21,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{model.gds}{Path to a GDS file specifying the reference model}
 
-\item{model.available}{String specifying the pre-computed reference model to use (SS2, SS2.Light, SS4, NimblegenV3, HALO). Models with postfix .Light are built with less reference samples.}
+\item{model.available}{String specifying the pre-computed reference model to use (SS2, SS2.Light, SS4, SS4.Light, NimblegenV3, NimblegenV3.Light, HALO,HALO.Light, Exonic). Models with postfix .Light are built with less reference samples and are indicated when RAM availability is limited.}
 
 \item{model.folder}{Path to the folder where reference models are already present or downloaded when needed}
 
