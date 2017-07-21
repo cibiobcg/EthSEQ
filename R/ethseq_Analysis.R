@@ -18,6 +18,7 @@
 #' @param verbose Print detaild information
 #' @param composite.model.call.rate SNP call rate used to run Principal Component Analysis (PCA)
 #' @param refinement.analysis Matrix specyfing a tree of ethnicities
+#' @param space Dimensions of PCA space used to infer ethnicity (2D or 3D)
 #' @return Logical value indicating the success of the analysis
 #' @export
 ethseq.Analysis <- function(
@@ -36,7 +37,8 @@ ethseq.Analysis <- function(
   cores=1,
   verbose=TRUE,
   composite.model.call.rate = 1,
-  refinement.analysis = NA)
+  refinement.analysis = NA,
+  space = "2D")
 {
   
   ## Version
@@ -72,7 +74,12 @@ ethseq.Analysis <- function(
     }
     
     ### Check if all BAM files exists
-    bam.files = unique(as.character(read.delim(bam.list,header=F)[,1]))
+    if(any(!file.exists(unique(readLines(bam.list)))))
+    {
+      message.Date("ERROR: one or more BAM files do not exist.")
+      return(FALSE)
+    }
+    bam.files = unique(readLines(bam.list))
     sample.names = gsub(".bam","",basename(bam.files))
     
     ## Execute ASEQ to generate genotypes
@@ -124,7 +131,7 @@ ethseq.Analysis <- function(
   message.Date("Perform PCA on aggregated model")
 
   model <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
-  pca <- snpgdsPCA(model,num.thread = cores,eigen.method = "DSPEVX",verbose = verbose,missing.rate = 1-composite.model.call.rate)
+  pca <- snpgdsPCA(model,num.thread = cores,eigen.method = "DSPEVX",verbose = verbose,missing.rate = 1-composite.model.call.rate,eigen.cnt=5)
   sample.id <- read.gdsn(index.gdsn(model, "sample.id"))
   pop_code <- read.gdsn(index.gdsn(model, "sample.annot/pop.group"))
   tab <- data.frame(sample.id = pca$sample.id,
@@ -132,12 +139,14 @@ ethseq.Analysis <- function(
                     EV1 = pca$eigenvect[,1],
                     EV2 = pca$eigenvect[,2],
                     EV3 = pca$eigenvect[,3],
+                    EV4 = pca$eigenvect[,4],
+                    EV5 = pca$eigenvect[,5],
                     stringsAsFactors = FALSE)
   snpgdsClose(model)
-
+  
   ### Infer ethnicity
   message.Date("Infer ethnicities")
-  annotations = get.Ethnicity(tab)
+  annotations = get.Ethnicity(tab,space)
   
   if(!all(is.na(refinement.analysis)))
   {
@@ -155,11 +164,16 @@ ethseq.Analysis <- function(
     refinement.analysis = unlist(apply(refinement.analysis,1,function(x) x[which(x!="")]))
     refinements = list()
     refinements[[1]] = annotations
-    out = refinements[[1]][[1]][,c(1,2,6)]
+    out = refinements[[1]][[1]][,c(1,2,8)]
     
     ### Plot visual PDF report
     message.Date("Plot visual report")
-    plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],out.dir,label="_Ref0")
+    coord = annotations[[1]]
+    n.dim = as.numeric(gsub("D","",space))-1
+    coord = coord[,c(1,3:(3+n.dim))]
+    coord[,1] = gsub("target.","",coord[,1])
+    write.table(coord,file.path(out.dir,"Report_Ref0.PCAcoord"),sep="\t",row.names=F,quote=F)
+    plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],annotations[[3]],out.dir,label="_Ref0",space = space)
     
     for(s in 1:length(refinement.analysis))
     {
@@ -170,7 +184,7 @@ ethseq.Analysis <- function(
       sample.id <- read.gdsn(index.gdsn(model, "sample.id"))
       pop_code <- read.gdsn(index.gdsn(model, "sample.annot/pop.group"))
       samples = c(samples,sample.id[which(as.character(pop_code)%in%strsplit(refinement.analysis[[s]],"\\|")[[1]])])
-      pca <- snpgdsPCA(model,num.thread = cores,eigen.method = "DSPEVX",verbose = verbose,sample.id = samples)
+      pca <- snpgdsPCA(model,num.thread = cores,eigen.method = "DSPEVX",verbose = verbose,sample.id = samples, missing.rate=1-composite.model.call.rate,eigen.cnt =5)
       
       idx = which(as.character(pop_code)%in%c("ND",strsplit(refinement.analysis[[s]],"\\|")[[1]]))
       tab <- data.frame(sample.id = pca$sample.id,
@@ -178,24 +192,37 @@ ethseq.Analysis <- function(
                         EV1 = pca$eigenvect[,1],
                         EV2 = pca$eigenvect[,2],
                         EV3 = pca$eigenvect[,3],
+                        EV4 = pca$eigenvect[,4],
+                        EV5 = pca$eigenvect[,5],
                         stringsAsFactors = FALSE)
       snpgdsClose(model)
       
-      annotations = get.Ethnicity(tab)
-      plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],out.dir,label=paste("_Ref",s,sep=""))
+      annotations = get.Ethnicity(tab,space)
+      if(annotations[[4]])
+      {
+        coord = annotations[[1]]
+        n.dim = as.numeric(gsub("D","",space))-1
+        coord = coord[,c(1,3:(3+n.dim))]
+        coord[,1] = gsub("target.","",coord[,1])
+        write.table(coord,file.path(out.dir,paste("Report_Ref",s,".PCAcoord",sep="")),sep="\t",row.names=F,quote=F)
+        plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],annotations[[3]],out.dir,label=paste("_Ref",s,sep=""),space = space)
+      }
       if(!refinement.leafs[s])
       {
         refinements[[refinement.index+1]] = annotations
         refinement.index = refinement.index+1
       }
       
-      for(i in 1:nrow(out))
+      if(annotations[[4]])
       {
-        id = which(annotations[[1]]$sample.id==out$sample.id[i])
-        if(length(id)>0)
+        for(i in 1:nrow(out))
         {
-          out$pop[i] = annotations[[1]]$pop[id]
-          out$type[i] = annotations[[1]]$type[id]
+          id = which(annotations[[1]]$sample.id==out$sample.id[i])
+          if(length(id)>0)
+          {
+            out$pop[i] = annotations[[1]]$pop[id]
+            out$type[i] = annotations[[1]]$type[id]
+          }
         }
       }
     }
@@ -209,17 +236,18 @@ ethseq.Analysis <- function(
     ### Print ethnicity annotations on tex tab-delimited file
     message.Date("Print annotations")
     out = annotations[[1]]
-    out = out[,c(1,2,6,7)]
+    out = out[,c(1,2,8,9)]
     out[,1] = gsub("target.","",out[,1])
     write.table(out,file.path(out.dir,"Report.txt"),sep="\t",row.names=F,quote=F)
     out = annotations[[1]]
-    out = out[,c(1,3:4)]
+    n.dim = as.numeric(gsub("D","",space))-1
+    out = out[,c(1,3:(3+n.dim))]
     out[,1] = gsub("target.","",out[,1])
     write.table(out,file.path(out.dir,"Report.PCAcoord"),sep="\t",row.names=F,quote=F)
     
     ### Plot visual PDF report
     message.Date("Plot visual report")
-    plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],out.dir)
+    plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],annotations[[3]],out.dir,space=space)
   }
   
   message.Date("Computation end")

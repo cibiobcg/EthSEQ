@@ -1,6 +1,6 @@
 get.Model <- function(model.available,model.folder)
 {
-  if(!model.available%in%c("SS2","SS2.Light","SS4","SS4.Light","HALO","HALO.Light","NimblegenV3","NimblegenV3.Light","Exonic"))
+  if(!model.available%in%c("SS2.All","SS2.Major","SS4.All","SS4.Major","HALO.All","HALO.Major","NimblegenV3.All","NimblegenV3.Major","Exonic.All","Exonic.Major"))
   {
     message.Date(paste("Model ",model.available," not available",sep=""))
     return(NA)

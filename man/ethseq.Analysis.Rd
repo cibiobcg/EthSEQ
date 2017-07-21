@@ -8,7 +8,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
   out.dir = "/tmp", model.gds = NA, model.available = NA,
   model.folder = "/tmp", run.genotype = FALSE, aseq.path = "/tmp",
   mbq = 20, mrq = 20, mdc = 10, cores = 1, verbose = TRUE,
-  composite.model.call.rate = 1, refinement.analysis = NA)
+  composite.model.call.rate = 1, refinement.analysis = NA, space = "2D")
 }
 \arguments{
 \item{target.vcf}{Path to the sample's genotypes in VCF format}
@@ -21,7 +21,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{model.gds}{Path to a GDS file specifying the reference model}
 
-\item{model.available}{String specifying the pre-computed reference model to use (SS2, SS2.Light, SS4, SS4.Light, NimblegenV3, NimblegenV3.Light, HALO,HALO.Light, Exonic). Models with postfix .Light are built with less reference samples and are indicated when RAM availability is limited.}
+\item{model.available}{String specifying the pre-computed reference model to use (SS2, SS2.Light, SS4, SS4.Light, NimblegenV3, NimblegenV3.Light, HALO, HALO.Light, Exonic). Models with postfix .Light are built with less reference samples and are indicated when RAM availability is limited.}
 
 \item{model.folder}{Path to the folder where reference models are already present or downloaded when needed}
 
@@ -42,6 +42,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 \item{composite.model.call.rate}{SNPs call rate used to run Principal Component Analysis (PCA)}
 
 \item{refinement.analysis}{Matrix specyfing a tree of ethnicities}
+\item{space}{Dimensions of PCA space used to infer ethnicity. Value 2D is for using first two PCA components, while value 3D is for using the first three PCA components.}
 }
 \value{
 Logical value indicating the success of the analysis
@@ -61,7 +62,8 @@ ethseq.Analysis(
   model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds",
 	package="EthSEQ"),
   verbose=TRUE,
-  composite.model.call.rate = 1)
+  composite.model.call.rate = 1,
+  space="3D") # Default space is 2D
 
 ## Load and display computed ethnicity annotations
 ethseq.annotations = read.delim(file.path(out.dir,"Report.txt"),

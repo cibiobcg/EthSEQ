@@ -28,7 +28,8 @@ ethseq.Analysis(
   model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds",
 	package="EthSEQ"),
   verbose=TRUE,
-  composite.model.call.rate = 1)
+  composite.model.call.rate = 1,
+  space = "3D") # Default space is 2D
 
 ## Load and display computed ethnicity annotations
 ethseq.annotations = read.delim(file.path(out.dir,"Report.txt"),
@@ -41,7 +42,7 @@ unlink(out.dir,recursive=TRUE)
 
 ## Perform ethnicity analysis using pre-computed reference model
 
-Analysis of 6 individuals from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data. Genotype data for 123,292 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ in VCF format while reference model selected among the set of pre-computed reference model. Reference model SS2.Light refers to the reference model built from 800 individuals from 1,000 Genome Project and considering 123,292 SNPs included in Agilent Sure Select v2 captured regions. Note that a reference model version called SS2 considering gentoype data for more than 2,000 individuals from 1,000 Genome Project is also available.
+Analysis of 6 individuals from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data. Genotype data for 123,292 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ in VCF format while reference model selected among the set of pre-computed reference model. Reference model SS2.Major refers to the reference model built from 1550 individuals (from AFR, EUR, SAS and EAS major populations) from 1,000 Genome Project and considering 123,292 SNPs included in Agilent Sure Select v2 captured regions. Note that a reference model version called SS2 considering gentoype data for more than 2,000 individuals from 1,000 Genome Project is also available.
 
 ```
 library(EthSEQ)
@@ -58,10 +59,11 @@ download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/Sample_SS2.vcf
 ethseq.Analysis(
   target.vcf =  file.path(data.dir,"Sample_SS2.vcf"),
   out.dir = out.dir,
-  model.available = "SS2.Light",
+  model.available = "SS2.Major",
   model.folder = data.dir,
   verbose=TRUE,
-  composite.model.call.rate = 1)
+  composite.model.call.rate = 1,
+  space = "3D") # Default space is 2D
 
 ## Delete analysis folder
 unlink(data.dir,recursive=TRUE)
@@ -170,7 +172,6 @@ ethseq.RM(
   out.dir = out.dir,
   model.name = "Reference.Model",
   bed.fn = NA,
-  phased = FALSE,
   call.rate = 1,
   cores = 1)
 

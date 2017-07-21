@@ -19,8 +19,6 @@ ethseq.RM(vcf.fn, annotations, out.dir = "./",
 
 \item{bed.fn}{Path to BED file with regions of interest}
 
-\item{phased}{Logical value indicating if the genotypes are phased}
-
 \item{call.rate}{SNPs call rate cutoff for inclusion in the final reference model}
 
 \item{cores}{Number of cores to use in the reference model generation}
@@ -51,7 +49,6 @@ ethseq.RM(
   out.dir = out.dir,
   model.name = "Reference.Model",
   bed.fn = NA,
-  phased = FALSE,
   call.rate = 1,
   cores = 1)
 

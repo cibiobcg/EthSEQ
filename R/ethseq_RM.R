@@ -7,9 +7,8 @@
 #' @param out.dir Path to output folder
 #' @param model.name Name of the output model
 #' @param bed.fn path to BED file with regions of interest
-#' @param phased Logical value indicating if the genotypes are phased
 #' @param call.rate SNPs call rate cutoff for inclusion in the final reference model
-#' @param cores How many parallele cores to use in the reference model generation
+#' @param cores How many parallel cores to use in the reference model generation
 #' @return Logical value indicating the success of the analysis
 #' @export
 ethseq.RM <- function(
@@ -18,7 +17,6 @@ ethseq.RM <- function(
   out.dir = "./",
   model.name = "Reference.Model",
   bed.fn = NA,
-  phased = FALSE,
   call.rate = 1,
   cores = 1)
 {
@@ -159,6 +157,9 @@ ethseq.RM <- function(
   add.gdsn(genofile,"snp.alt",vcf[,5])
   
   snpgdsClose(genofile)
+  
+  write.table(vcf,paste(out.dir,"/Filtered_",basename(vcf.fn),sep=""),
+              sep="\t",quote=F,row.names=F)
   
   return(TRUE)
 }
