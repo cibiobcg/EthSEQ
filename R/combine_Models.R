@@ -1,7 +1,7 @@
 combine.Models <- function(reference.fn,target.fn,out.dir,composite.model.call.rate)
 {
   reference = snpgdsOpen(reference.fn)
-  reference.geno = as.data.frame.matrix(snpgdsGetGeno(reference,verbose=F))
+  reference.geno = snpgdsGetGeno(reference,verbose=F)
   reference.snps = read.gdsn(index.gdsn(reference,"snp.rs.id"))
   reference.samples = read.gdsn(index.gdsn(reference,"sample.id"))
   reference.alleles = read.gdsn(index.gdsn(reference,"snp.allele"))
@@ -10,7 +10,7 @@ combine.Models <- function(reference.fn,target.fn,out.dir,composite.model.call.r
   reference.alt = read.gdsn(index.gdsn(reference,"snp.alt"))
   
   target = snpgdsOpen(target.fn)
-  target.geno = as.data.frame.matrix(snpgdsGetGeno(target,verbose = F))
+  target.geno = snpgdsGetGeno(target,verbose = F)
   target.snps = read.gdsn(index.gdsn(target,"snp.rs.id"))
   target.samples = read.gdsn(index.gdsn(target,"sample.id"))
   target.alleles = read.gdsn(index.gdsn(target,"snp.allele"))
@@ -38,8 +38,8 @@ combine.Models <- function(reference.fn,target.fn,out.dir,composite.model.call.r
     }
   }
   
-  genmat = rbindlist(list(target.geno,reference.geno))
-  genmat = as.matrix.data.frame(genmat)
+  tmp.list = list(target.geno,reference.geno)
+  genmat = rbind(tmp.list)
   #calls = apply(genmat,2,function(x) length(which(is.na(x)))/length(x))
   
   snpgdsCreateGeno(file.path(out.dir,"Aggregated.gds"),
