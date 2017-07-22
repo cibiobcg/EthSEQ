@@ -38,9 +38,11 @@ combine.Models <- function(reference.fn,target.fn,out.dir,composite.model.call.r
     }
   }
   
-  genmat = matrix(0,ncol=ncol(target.geno),nrow=nrow(target.geno)+nrow(reference.geno))
-  genmat[1:nrow(target.geno),] = target.geno
-  genmat[(nrow(target.geno)+1):(nrow(target.geno)+nrow(reference.geno)),] = reference.geno
+  tmp.list = list(target.geno,reference.geno)
+  genmat = do.call(rbind,tmp.list)
+  rm(target.geno)
+  rm(reference.geno)
+  gc()
   #calls = apply(genmat,2,function(x) length(which(is.na(x)))/length(x))
   
   snpgdsCreateGeno(file.path(out.dir,"Aggregated.gds"),
