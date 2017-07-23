@@ -3,13 +3,13 @@
 == Changes in EthSEQ 2.1.0
 
 * First 3 PCA components can now be used to perform ethnicity analysis. Parameter "space" in ethseq.Analysis function can now be used to specificy the analysis mode ("3D" or default "2D").
-* Added reference models with mixed american population (AMR) as defined by 1,000 Genome Project data. Models name containing the label "Major" are built from EUR, AFR, SAS and EAS population data (1,000 Genome Project genotype data), while models containing label "All" are built also considering AMR population. List of current reference models is:
+* Added reference models with mixed american population (AMR) as defined by 1,000 Genome Project data. Models name containing the label "Major" are built from EUR, AFR, SAS and EAS populations data (1,000 Genome Project genotype data), while models containing label "All" are built considering in addition AMR population. List of current available reference models is:
 ..* HALO.All.gsd and HALO.Major.gds (SNPs in Haloplex)
 ..* SS2.All.gsd and SS2.Major.gds (SNPs in Sure Select v2)
 ..* SS4.All.gsd and SS4.Major.gds (SNPs in Sure Select v4)
 ..* NimblegenV3.All.gsd and NimblegenV3.Major.gds (SNPS in Nimblegen SeqCap EZ Exome v3)
 ..* Exonic.All.gsd and Exonic.Major.gds (SNPS in all exonic regions as per GENCODE v14)
-* For individuals with multiple annotations (e.g. EUR|SAS) contribution of both reference population as percentage is reported
+* For individuals with multiple ethnicity annotations (e.g. "EUR|SAS") the contribution of all reference populations is reported as percentage value
 * Check existence of BAM files defined in the input BAM file list
 * When a reference model is created a VCF file with all SNPs selected to build the reference GDS model is reported (file named "Filtered_*.vcf")
   
