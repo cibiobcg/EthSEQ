@@ -140,7 +140,8 @@ ethseq.Analysis(
 	package="EthSEQ"),
   verbose=TRUE,
   composite.model.call.rate = 1,
-  refinement.analysis = m)
+  refinement.analysis = m,
+  space="3D")
 
 ## Delete analysis folder
 unlink(out.dir,recursive=TRUE)
