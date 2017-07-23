@@ -181,4 +181,4 @@ unlink(out.dir,recursive=TRUE)
 ```
 
 ## Reference paper
-Alessandro Romanel, Tuo Zhang, Olivier Elemento, Francesca Demichelis; EthSEQ: ethnicity annotation from whole exome sequencing data. Bioinformatics 2017 btx165.<doi:10.1093/bioinformatics/btx165>
+Alessandro Romanel, Tuo Zhang, Olivier Elemento, Francesca Demichelis; EthSEQ: ethnicity annotation from whole exome sequencing data. Bioinformatics, 2017.
