@@ -163,32 +163,3 @@ ethseq.RM <- function(
   
   return(TRUE)
 }
-  
-  
-  
-out.dir = tempdir()
-dir.create(out.dir)
-
-### Load list of VCF files paths
-vcf.files = 
-  c(system.file("extdata", "VCF_Test_1.vcf", package="EthSEQ"),
-    system.file("extdata", "VCF_Test_2.vcf", package="EthSEQ"))
-
-### Load samples annotations
-annot.samples = read.delim(system.file("extdata", "Annotations_Test.txt",
-                                       package="EthSEQ"))
-
-### Create reference model
-ethseq.RM(
-  vcf.fn = vcf.files,
-  annotations = annot.samples,
-  out.dir = out.dir,
-  model.name = "Reference.Model",
-  bed.fn = NA,
-  call.rate = 1,
-  cores = 1)
-  
-  
-  
-  
-  
