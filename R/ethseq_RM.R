@@ -158,7 +158,7 @@ ethseq.RM <- function(
   
   snpgdsClose(genofile)
   
-  write.table(vcf,paste(out.dir,"/Filtered_",basename(vcf.fn),sep=""),
+  write.table(vcf,paste(out.dir,"/Filtered_SNPs.vcf",sep=""),
               sep="\t",quote=F,row.names=F)
   
   return(TRUE)
@@ -166,7 +166,27 @@ ethseq.RM <- function(
   
   
   
-  
+out.dir = tempdir()
+dir.create(out.dir)
+
+### Load list of VCF files paths
+vcf.files = 
+  c(system.file("extdata", "VCF_Test_1.vcf", package="EthSEQ"),
+    system.file("extdata", "VCF_Test_2.vcf", package="EthSEQ"))
+
+### Load samples annotations
+annot.samples = read.delim(system.file("extdata", "Annotations_Test.txt",
+                                       package="EthSEQ"))
+
+### Create reference model
+ethseq.RM(
+  vcf.fn = vcf.files,
+  annotations = annot.samples,
+  out.dir = out.dir,
+  model.name = "Reference.Model",
+  bed.fn = NA,
+  call.rate = 1,
+  cores = 1)
   
   
   

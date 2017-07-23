@@ -11,6 +11,6 @@
 ..* Exonic.All.gsd and Exonic.Major.gds (SNPS in all exonic regions as per GENCODE v14)
 * For individuals with multiple ethnicity annotations (e.g. "EUR|SAS") the contribution of all reference populations is reported as percentage value
 * Check existence of BAM files defined in the input BAM file list
-* When a reference model is created a VCF file with all SNPs selected to build the reference GDS model is reported (file named "Filtered_*.vcf")
+* When a reference model is created a VCF file with all SNPs selected to build the reference GDS model is reported (file named "Filtered_SNPs.vcf")
   
 
