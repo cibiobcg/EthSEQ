@@ -8,7 +8,8 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
   out.dir = "/tmp", model.gds = NA, model.available = NA,
   model.folder = "/tmp", run.genotype = FALSE, aseq.path = "/tmp",
   mbq = 20, mrq = 20, mdc = 10, cores = 1, verbose = TRUE,
-  composite.model.call.rate = 1, refinement.analysis = NA, space = "2D")
+  composite.model.call.rate = 1, refinement.analysis = NA, space = "2D",
+  bam.chr.encoding = FALSE)
 }
 \arguments{
 \item{target.vcf}{Path to the sample's genotypes in VCF format}
@@ -21,7 +22,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{model.gds}{Path to a GDS file specifying the reference model}
 
-\item{model.available}{String specifying the pre-computed reference model to use (SS2.All, SS2.Major, SS4.All, SS4.Major, NimblegenV3.All, NimblegenV3.Major, HALO.All, HALO.Major, Exonic.All, Exonic.Major). Models containing the label "Major" are built from EUR, AFR, SAS and EAS populations data (1,000 Genome Project genotype data), while models containing label "All" are built considering in addition AMR population.}
+\item{model.available}{String specifying the pre-computed reference model to use (SS2.All, SS2.Major, SS4.All, SS4.Major, NimblegenV3.All, NimblegenV3.Major, HALO.All, HALO.Major, Exonic.All, Exonic.Major). Models containing the label "Major" are built from EUR, AFR, SAS and EAS populations data (1,000 Genome Project genotype data), while models containing label "All" are built considering in addition AMR population. All reference models are built using hg19 reference genome coordinates.}
 
 \item{model.folder}{Path to the folder where reference models are already present or downloaded when needed}
 
@@ -43,6 +44,7 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{refinement.analysis}{Matrix specyfing a tree of ethnicities}
 \item{space}{Dimensions of PCA space used to infer ethnicity. Value 2D is for using first two PCA components, while value 3D is for using the first three PCA components.}
+\item{bam.chr.encoding}{Logical value indicating whether input BAM files have chromosomes encoded with "chr" prefix}
 }
 \value{
 Logical value indicating the success of the analysis

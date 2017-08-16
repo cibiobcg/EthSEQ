@@ -110,7 +110,8 @@ ethseq.Analysis(
   mdc=10,
   run.genotype = TRUE,
   composite.model.call.rate = 1,
-  cores=1)
+  cores=1,
+  bam.chr.encoding = FALSE)
 
 ## Delete analysis folder
 unlink(data.dir,recursive=TRUE)

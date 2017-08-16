@@ -1,4 +1,4 @@
-aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.path,cores)
+aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.path,cores,bam.chr.encoding)
 {
   tryCatch(
     {
@@ -9,6 +9,8 @@ aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.
                   as.character(read.gdsn(index.gdsn(model,"snp.ref"))),
                   as.character(read.gdsn(index.gdsn(model,"snp.alt"))),".",".",".")
       colnames(vcf)= c("CHR","POS","ID","REF","ALT","QUAL","FILTER","INFO")
+      if(bam.chr.encoding)
+        vcf[,1] = paste("chr",vcf[,1],sep="")
       write.table(vcf,file.path(out.dir,"ModelPositions.vcf"),sep="\t",quote=F,row.names=F)
       snpgdsClose(model)
       ## Check ASEQ path or download

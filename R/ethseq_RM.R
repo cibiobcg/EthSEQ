@@ -28,6 +28,8 @@ ethseq.RM <- function(
     ### Load VCF file
     message.Date(paste("Load genotype data in VCF file: ",geno,sep=""))
     vcf = fread(geno,data.table = FALSE)
+    ### Chromosomes without chr encoding
+    vcf[,1] = gsub("chr","",as.character(vcf[,1]))
     if(ncol(vcf)<10)
       return(FALSE)
     

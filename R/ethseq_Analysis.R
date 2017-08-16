@@ -19,6 +19,7 @@
 #' @param composite.model.call.rate SNP call rate used to run Principal Component Analysis (PCA)
 #' @param refinement.analysis Matrix specyfing a tree of ethnicities
 #' @param space Dimensions of PCA space used to infer ethnicity (2D or 3D)
+#' @param bam.chr.encoding Logical value indicating whether input BAM files have chromosomes encoded with "chr" prefix
 #' @return Logical value indicating the success of the analysis
 #' @export
 ethseq.Analysis <- function(
@@ -38,7 +39,8 @@ ethseq.Analysis <- function(
   verbose=TRUE,
   composite.model.call.rate = 1,
   refinement.analysis = NA,
-  space = "2D")
+  space = "2D",
+  bam.chr.encoding = FALSE)
 {
   
   ## Version
@@ -94,7 +96,7 @@ ethseq.Analysis <- function(
     message.Date(paste("Run ASEQ to generate genotypes for ",length(bam.files)," samples",sep=""))
     if(run.genotype)
     {
-      res = aseq.Run(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.path,cores)
+      res = aseq.Run(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.path,cores,bam.chr.encoding)
       if(!res)
       {
         message.Date("ERROR: Error while executing ASEQ.")
@@ -104,7 +106,7 @@ ethseq.Analysis <- function(
     
     ## Create Target Model GDS file
     message.Date("Create target model")
-    create.Target.Model(sample.names,genotype.dir,out.dir,cores)
+    create.Target.Model(sample.names,genotype.dir,out.dir,cores,bam.chr.encoding)
     
     target.model = file.path(out.dir,"Target.gds")
   } else if(is.na(target.gds))

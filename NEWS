@@ -1,5 +1,11 @@
 = EthSEQ News
 
+== Changes in EthSEQ 2.1.1
+
+* Added parameter "bam.chr.encoding" to specify that input BAM files have chromosomes encoded with prefix "chr"
+* Prefix "chr" of chromosome names (when present) in VCF input target models are now automatically deleted 
+* Reference models with ethseq.RM are now created deleting prefix "chr" from chromosome names (when present) in VCF input files
+
 == Changes in EthSEQ 2.1.0
 
 * First 3 PCA components can now be used to perform ethnicity analysis. Parameter "space" in ethseq.Analysis function can now be used to specificy the analysis mode ("3D" or default "2D").

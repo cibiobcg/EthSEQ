@@ -1,7 +1,7 @@
 Package: EthSEQ
 Type: Package
 Title: Ethnicity Annotation from Whole Exome Sequencing Data
-Version: 2.1.0
+Version: 2.1.1
 Author: Alessandro Romanel
 Maintainer: Alessandro Romanel <alessandro.romanel@unitn.it>
 Description: Reliable and rapid ethnicity annotation from whole exome sequencing data.

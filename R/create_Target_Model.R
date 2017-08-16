@@ -1,5 +1,5 @@
 
-create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores)
+create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.encoding)
 {
   files = list.files(genotype.dir,"genotype.vcf")
   files = files[which(files%in%paste(sample.names,".genotype.vcf",sep=""))]
@@ -33,12 +33,16 @@ create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores)
   snp.allele = rep("A/B",ncol(genmat))
   snp.allele[idx] = "B/A"
   
+  chrs = geno[,1]
+  if(bam.chr.encoding)
+    chrs = gsub("chr","",as.character(chrs))
+  
   snpgdsCreateGeno(file.path(out.dir,"Target.gds"),
                    genmat = genmat,
                    sample.id = gsub(".genotype.vcf","",files),
                    snp.id = 1:nrow(geno),
                    snp.rs.id = geno[,3],
-                   snp.chromosome = geno[,1],
+                   snp.chromosome = chrs,
                    snp.position = geno[,2],
                    snp.allele = snp.allele,
                    snpfirstdim=FALSE)
@@ -56,6 +60,8 @@ create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores)
 create.Target.Model.From.VCF <- function(vcf.fn,out.dir,cores)
 {
   vcf = fread(vcf.fn,sep="\t",data.table=FALSE,showProgress=FALSE)
+  ### Chromosomes without chr encoding
+  vcf[,1] = gsub("chr","",as.character(vcf[,1]))
   
   geno = t(vcf[,10:ncol(vcf)])
   res = mclapply(1:ncol(geno),function(i)
