@@ -105,7 +105,8 @@ ethseq.Analysis(
   mdc=10,
   run.genotype = TRUE,
   composite.model.call.rate = 1,
-  cores=1)
+  cores=1,
+  bam.chr.encoding = FALSE) # chromosome names encoded without "chr" prefix in BAM files
 
 ## Delete analysis folder
 unlink(data.dir,recursive=TRUE)
