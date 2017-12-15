@@ -40,6 +40,14 @@ head(ethseq.annotations)
 unlink(out.dir,recursive=TRUE)
 ```
 
+Current version of EthSEQ manages only VCF files with the following format:
+- FORMAT column should be only "GT"
+- Only genotypes 0/0, 0/1, 1/1 and ./. are admitted
+- Only positions with single reference and single alternative base are admitted
+- No duplicate IDs are admitted (so no multiple variants with ID equal to ".") 
+- No duplicated sample names are admitted
+- No duplicated positions are admitted
+
 ## Perform ethnicity analysis using pre-computed reference model
 
 Analysis of 6 individuals from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data. Genotype data for 123,292 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ in VCF format while reference model selected among the set of pre-computed reference model. Reference model SS2.Major refers to the reference model built from 1550 individuals (from AFR, EUR, SAS and EAS major populations) from 1,000 Genome Project and considering 123,292 SNPs included in Agilent Sure Select v2 captured regions. Note that a reference model version called SS2 considering gentoype data for more than 2,000 individuals from 1,000 Genome Project is also available.
