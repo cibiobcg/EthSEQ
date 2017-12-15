@@ -1,5 +1,9 @@
 = EthSEQ News
 
+== Changes in EthSEQ 2.1.2
+
+* When running ethseq.Analysis with a VCF input file, intersection of variants in the VCF and reference model are computed and used to perform the analysis.
+
 == Changes in EthSEQ 2.1.1
 
 * Added parameter "bam.chr.encoding" to specify that input BAM files have chromosomes encoded with prefix "chr"

@@ -8,6 +8,9 @@ combine.Models <- function(reference.fn,target.fn,out.dir,composite.model.call.r
   reference.annot = read.gdsn(index.gdsn(reference,"sample.annot"))
   reference.ref = read.gdsn(index.gdsn(reference,"snp.ref"))
   reference.alt = read.gdsn(index.gdsn(reference,"snp.alt"))
+  reference.chr = read.gdsn(index.gdsn(reference,"snp.chromosome"))
+  reference.pos = read.gdsn(index.gdsn(reference,"snp.position")) 
+  reference.sign = paste(reference.chr,reference.pos,sep=":")
   
   target = snpgdsOpen(target.fn)
   target.geno = snpgdsGetGeno(target,verbose = F)
@@ -17,11 +20,93 @@ combine.Models <- function(reference.fn,target.fn,out.dir,composite.model.call.r
   target.annot = read.gdsn(index.gdsn(target,"sample.annot"))
   target.ref = read.gdsn(index.gdsn(target,"snp.ref"))
   target.alt = read.gdsn(index.gdsn(target,"snp.alt"))
+  target.chr = read.gdsn(index.gdsn(target,"snp.chromosome"))
+  target.pos = read.gdsn(index.gdsn(target,"snp.position")) 
+  target.sign = paste(target.chr,target.pos,sep=":")
   
-  if(!all(all(target.snps==reference.snps)&all(target.ref==reference.ref)&all(target.alt==reference.alt)&
-          all(read.gdsn(index.gdsn(target,"snp.chromosome"))==read.gdsn(index.gdsn(reference,"snp.chromosome")))&
-          all(read.gdsn(index.gdsn(target,"snp.position"))==read.gdsn(index.gdsn(reference,"snp.position")))))
+  intersect.sign = intersect(target.sign,reference.sign)
+
+  if(length(intersect.sign)>0)
   {
+    ## Restrict reference model to target model SNPs
+    idx = which(reference.sign%in%intersect.sign)
+    reference.geno = reference.geno[,idx,drop=FALSE]
+    reference.snps = reference.snps[idx]
+    reference.alleles = reference.alleles[idx] 
+    reference.ref = reference.ref[idx]
+    reference.alt = reference.alt[idx]
+    reference.chr = reference.chr[idx]
+    reference.pos = reference.pos[idx]
+    reference.sign = paste(reference.chr,reference.pos,sep=":")
+
+    idx = which(target.sign%in%intersect.sign)
+    target.geno = target.geno[,idx,drop=FALSE]
+    target.snps = target.snps[idx]
+    target.alleles = target.alleles[idx]
+    target.ref = target.ref[idx]
+    target.alt = target.alt[idx]
+    target.chr = target.chr[idx]
+    target.pos = target.pos[idx]
+    target.sign = paste(target.chr,target.pos,sep=":")
+
+    isort = match(reference.sign,target.sign)
+    target.geno = target.geno[,isort,drop=FALSE]
+    target.snps = target.snps[isort]
+    target.alleles = target.alleles[isort] 
+    target.ref = target.ref[isort]
+    target.alt = target.alt[isort]
+    target.chr = target.chr[isort]
+    target.pos = target.pos[isort]
+  } else
+  {
+    snpgdsClose(target)
+    snpgdsClose(reference)
+	  return(FALSE)
+  }
+  
+  if(length(target.ref)!=length(reference.ref))
+  {
+    snpgdsClose(target)
+    snpgdsClose(reference)
+    return(FALSE)
+  }
+  
+  if(!all(target.alt==reference.alt))
+  {
+    #Exclude SNPs with different alternative  
+    idx = which(target.alt==reference.alt)
+    
+    reference.geno = reference.geno[,idx,drop=FALSE]
+    reference.snps = reference.snps[idx]
+    reference.alleles = reference.alleles[idx] 
+    reference.ref = reference.ref[idx]
+    reference.alt = reference.alt[idx]
+    reference.chr = reference.chr[idx]
+    reference.pos = reference.pos[idx]
+    reference.sign = paste(reference.chr,reference.pos,sep=":")
+
+    target.geno = target.geno[,idx,drop=FALSE]
+    target.snps = target.snps[idx]
+    target.alleles = target.alleles[idx]
+    target.ref = target.ref[idx]
+    target.alt = target.alt[idx]
+    target.chr = target.chr[idx]
+    target.pos = target.pos[idx]
+    target.sign = paste(target.chr,target.pos,sep=":")
+  }
+  
+  if(length(target.ref)==0)
+  {
+    snpgdsClose(target)
+    snpgdsClose(reference)
+    return(FALSE)
+  }
+  
+  if(!all(all(target.ref==reference.ref)&all(target.alt==reference.alt)&
+          all(target.chr==reference.chr)&all(target.pos==reference.pos)))
+  {
+    snpgdsClose(target)
+    snpgdsClose(reference)
     return(FALSE)
   }
   
@@ -49,9 +134,9 @@ combine.Models <- function(reference.fn,target.fn,out.dir,composite.model.call.r
                    genmat = genmat,
                    sample.id = c(paste("target.",target.samples,sep=""),paste("reference.",reference.samples,sep="")),
                    snp.id = 1:ncol(genmat),
-                   snp.rs.id = reference.snps,
-                   snp.chromosome = read.gdsn(index.gdsn(reference,"snp.chromosome")),
-                   snp.position = read.gdsn(index.gdsn(reference,"snp.position")),
+                   snp.rs.id = target.snps,
+                   snp.chromosome = reference.chr,
+                   snp.position = reference.pos,
                    snp.allele = reference.alleles,
                    snpfirstdim=FALSE)
   

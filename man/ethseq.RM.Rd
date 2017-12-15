@@ -2,25 +2,25 @@
 % Please edit documentation in R/ethseq_RM.R
 \name{ethseq.RM}
 \alias{ethseq.RM}
-\title{Create a reference model for ethnicity analysis}
+\title{Create Reference Model for Ethnicity Analysis}
 \usage{
 ethseq.RM(vcf.fn, annotations, out.dir = "./",
   model.name = "Reference.Model", bed.fn = NA, call.rate = 1, cores = 1)
 }
 \arguments{
-\item{vcf.fn}{Paths to genotype files in VCF format}
+\item{vcf.fn}{vector of paths to genotype files in VCF format}
 
-\item{annotations}{data.frame associating all sample names to corresponding ethnicities and genders}
+\item{annotations}{data.frame with mapping of all samples names, ethnicities and gender}
 
 \item{out.dir}{Path to output folder}
 
 \item{model.name}{Name of the output model}
 
-\item{bed.fn}{Path to BED file with regions of interest}
+\item{bed.fn}{path to BED file with regions of interest}
 
 \item{call.rate}{SNPs call rate cutoff for inclusion in the final reference model}
 
-\item{cores}{Number of cores to use in the reference model generation}
+\item{cores}{How many parallel cores to use in the reference model generation}
 }
 \value{
 Logical value indicating the success of the analysis
@@ -28,30 +28,3 @@ Logical value indicating the success of the analysis
 \description{
 This function creates a GDS reference model that can be used to performe EthSEQ ethnicity analysis
 }
-\examples{
-### Load list of VCF files paths
-vcf.files = 
-  c(system.file("extdata", "VCF_Test_1.vcf", package="EthSEQ"),
-    system.file("extdata", "VCF_Test_2.vcf", package="EthSEQ"))
-
-### Load samples annotations
-annot.samples = read.delim(system.file("extdata", "Annotations_Test.txt",
-	package="EthSEQ"))
-
-out.dir = tempdir()
-dir.create(out.dir)
-
-### Create reference model
-ethseq.RM(
-  vcf.fn = vcf.files,
-  annotations = annot.samples,
-  out.dir = out.dir,
-  model.name = "Reference.Model",
-  bed.fn = NA,
-  call.rate = 1,
-  cores = 1)
-
-unlink(out.dir,recursive=TRUE)
-
-}
-

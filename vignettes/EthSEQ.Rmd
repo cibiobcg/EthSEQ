@@ -27,20 +27,17 @@ out.dir = file.path(tempdir(),"EthSEQ_Analysis/")
 
 ## Run the analysis
 ethseq.Analysis(
-  target.vcf = system.file("extdata", "Samples_SS2_10000SNPs.vcf",
-	package="EthSEQ"),
+  target.vcf = system.file("extdata", "Samples_SS2_10000SNPs.vcf",package="EthSEQ"),
   out.dir = out.dir,
-  model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds",
-	package="EthSEQ"),
+  model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds",package="EthSEQ"),
   verbose=TRUE,
   composite.model.call.rate = 1,
   space = "3D") # Default space is 2D
 
-## Load and display computed ethnicity annotations
-ethseq.annotations = read.delim(file.path(out.dir,"Report.txt"),
-	sep="\t",as.is=TRUE,header=TRUE)
+# Load and display computed ethnicity annotations
+ethseq.annotations = read.delim(file.path(out.dir,"Report.txt"),sep="\t",as.is=TRUE,header=TRUE)
 head(ethseq.annotations)
-
+ 
 ## Delete analysis folder
 unlink(out.dir,recursive=TRUE)
 ```

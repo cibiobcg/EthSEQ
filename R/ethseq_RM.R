@@ -160,8 +160,7 @@ ethseq.RM <- function(
   
   snpgdsClose(genofile)
   
-  write.table(vcf,paste(out.dir,"/Filtered_SNPs.vcf",sep=""),
-              sep="\t",quote=F,row.names=F)
+  write.table(vcf[,1:8],paste(out.dir,"/Filtered_SNPs.vcf",sep=""),sep="\t",quote=F,row.names=F)
   
   return(TRUE)
 }

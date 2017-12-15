@@ -22,57 +22,35 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{model.gds}{Path to a GDS file specifying the reference model}
 
-\item{model.available}{String specifying the pre-computed reference model to use (SS2.All, SS2.Major, SS4.All, SS4.Major, NimblegenV3.All, NimblegenV3.Major, HALO.All, HALO.Major, Exonic.All, Exonic.Major). Models containing the label "Major" are built from EUR, AFR, SAS and EAS populations data (1,000 Genome Project genotype data), while models containing label "All" are built considering in addition AMR population. All reference models are built using hg19 reference genome coordinates.}
+\item{model.available}{String specifying the pre-computed reference model to use (SS2,SS4,NimblegenV3,HALO,Exonic)}
 
-\item{model.folder}{Path to the folder where reference models are already present or downloaded when needed}
+\item{model.folder}{Path to the folder where reference models are already present of downloaded when needed}
 
-\item{run.genotype}{Logical values indicating whether the ASEQ genotype should be run}
+\item{run.genotype}{Logical values indicating wheter the ASEQ genotype should be run}
 
-\item{aseq.path}{Path to the folder where ASEQ binary is available or is downloaded when needed}
+\item{aseq.path}{Path to the folder where ASEQ binary is available of is downloaded when needed}
 
-\item{mbq}{Minimum base quality used in the pileup by ASEQ}
+\item{mbq}{Minmum base quality used in the pileup by ASEQ}
 
 \item{mrq}{Minimum read quality used in the piluep by ASEQ}
 
-\item{mdc}{Minimum read count acceptable for genotype inference by ASEQ}
+\item{mdc}{Minimum read count accettable for genotype inference by ASEQ}
 
 \item{cores}{Number of parallel cores used for the analysis}
 
-\item{verbose}{Print computation details}
+\item{verbose}{Print detaild information}
 
-\item{composite.model.call.rate}{SNPs call rate used to run Principal Component Analysis (PCA)}
+\item{composite.model.call.rate}{SNP call rate used to run Principal Component Analysis (PCA)}
 
 \item{refinement.analysis}{Matrix specyfing a tree of ethnicities}
-\item{space}{Dimensions of PCA space used to infer ethnicity. Value 2D is for using first two PCA components, while value 3D is for using the first three PCA components.}
+
+\item{space}{Dimensions of PCA space used to infer ethnicity (2D or 3D)}
+
 \item{bam.chr.encoding}{Logical value indicating whether input BAM files have chromosomes encoded with "chr" prefix}
 }
 \value{
 Logical value indicating the success of the analysis
 }
 \description{
-This function performs ethnicity analysis of a set of samples from a list of BAM files or genotype data in VCF format ad reports the results.
-}
-\examples{
-
-out.dir = file.path(tempdir(),"EthSEQ_Analysis/")
-
-## Run the analysis
-ethseq.Analysis(
-  target.vcf = system.file("extdata", "Samples_SS2_10000SNPs.vcf",
-	package="EthSEQ"),
-  out.dir = out.dir,
-  model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds",
-	package="EthSEQ"),
-  verbose=TRUE,
-  composite.model.call.rate = 1,
-  space="3D") # Default space is 2D
-
-## Load and display computed ethnicity annotations
-ethseq.annotations = read.delim(file.path(out.dir,"Report.txt"),
-	sep="\t",as.is=TRUE,header=TRUE)
-head(ethseq.annotations)
-
-## Delete analysis folder
-unlink(out.dir,recursive=TRUE)
-
+This function performs ethnicity analysis of a set of samples ad reports the results.
 }

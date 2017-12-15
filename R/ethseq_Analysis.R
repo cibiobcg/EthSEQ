@@ -76,7 +76,7 @@ ethseq.Analysis <- function(
     }
     
     ### Check if all BAM files exists
-    if(any(!file.exists(unique(readLines(bam.list)))))
+    if(run.genotype&any(!file.exists(unique(readLines(bam.list)))))
     {
       message.Date("ERROR: one or more BAM files do not exist.")
       return(FALSE)
