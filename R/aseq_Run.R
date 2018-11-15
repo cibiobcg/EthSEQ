@@ -5,7 +5,7 @@ aseq.Run <- function(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.
       ## Create VCF file
       model = snpgdsOpen(model.path,readonly = F)
       snp.list = snpgdsSNPList(model)
-      vcf = cbind(snp.list$chromosome,pos=snp.list$position,snp.list$rs.id,
+      vcf = cbind(snp.list$chromosome,pos=snp.list$position,snp.list$snp.id,
                   as.character(read.gdsn(index.gdsn(model,"snp.ref"))),
                   as.character(read.gdsn(index.gdsn(model,"snp.alt"))),".",".",".")
       colnames(vcf)= c("CHR","POS","ID","REF","ALT","QUAL","FILTER","INFO")
