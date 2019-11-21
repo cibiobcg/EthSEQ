@@ -1,5 +1,9 @@
 = EthSEQ News
 
+== Changes in EthSEQ 2.1.3
+
+* Changes in SNPRelate package data structures naming have been reflected in EthSEQ.
+
 == Changes in EthSEQ 2.1.2
 
 * When running ethseq.Analysis with a VCF input file, intersection of variants in the VCF and reference model are computed and used to perform the analysis.
