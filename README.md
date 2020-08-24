@@ -191,15 +191,13 @@ unlink(out.dir,recursive=TRUE)
 
 ## Reference paper
 
-EthSEQ: ethnicity annotation from whole exome sequencing data.
-Alessandro Romanel#, Tuo Zhang, Olivier Elemento, Francesca Demichelis#.
+EthSEQ: ethnicity annotation from whole exome sequencing data. 
+Alessandro Romanel#, Tuo Zhang, Olivier Elemento, Francesca Demichelis#. 
 Bioinformatics, 33(15):2402-2404, 2017.
 
 ## Additional papers
 
-Comprehensive Analysis of Genetic Ancestry and Its Molecular Correlates in Cancer.
-
+Comprehensive Analysis of Genetic Ancestry and Its Molecular Correlates in Cancer. 
 Jian Carrot-Zhang*, Nyasha Chambwe*, Jeffrey S. Damrauer*, Theo A. Knijnenburg*, A. Gordon Robertson*, Christina Yau*, Wanding Zhou*, Ashton C. Berger*, Kuan-lin Huang*, Justin Y. Newberg*, R. Jay Mashl**, Alessandro Romanel**,  Rosalyn W. Sayaman**, Francesca Demichelis, Ina Felau, Garrett M. Frampton, Seunghun Han, Katherine A. Hoadley, Anab Kemal, Peter W. Laird, Alexander J. Lazar, Xiuning Le, Ninad Oak, Hui Shen, Christopher K. Wong, Jean C. Zenklusen, Elad Ziv, Cancer Genome Atlas Analysis Network, Andrew D. Cherniack#, Rameen Beroukhim#. 
-
 Cancer Cell, 37(5):639-654, 2020.
 
