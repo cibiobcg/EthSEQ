@@ -192,9 +192,7 @@ unlink(out.dir,recursive=TRUE)
 ## Reference paper
 
 EthSEQ: ethnicity annotation from whole exome sequencing data.
-
 Alessandro Romanel#, Tuo Zhang, Olivier Elemento, Francesca Demichelis#.
-
 Bioinformatics, 33(15):2402-2404, 2017.
 
 ## Additional papers
