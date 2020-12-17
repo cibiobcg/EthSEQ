@@ -59,7 +59,7 @@ create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.e
 
 create.Target.Model.From.VCF <- function(vcf.fn,out.dir,cores)
 {
-  vcf = fread(vcf.fn,sep="\t",data.table=FALSE,showProgress=FALSE)
+  vcf = fread(vcf.fn,sep="\t",data.table=FALSE,showProgress=FALSE,skip="#CHR")
   ### Chromosomes without chr encoding
   vcf[,1] = gsub("chr","",as.character(vcf[,1]))
   
