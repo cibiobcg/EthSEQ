@@ -1,5 +1,10 @@
 = EthSEQ News
 
+== Changes in EthSEQ 2.1.4
+
+* Fixed pre-computed reference model download mode for Windows users.
+* Merging VCF files on intersecting SNPs with ethseq.RM is now correctly performed for all conditions.
+
 == Changes in EthSEQ 2.1.3
 
 * Changes in SNPRelate package data structures naming have been reflected in EthSEQ.

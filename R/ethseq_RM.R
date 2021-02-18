@@ -101,7 +101,7 @@ ethseq.RM <- function(
       signature = paste(tmp[,1],tmp[,2],tmp[,3],tmp[,4],tmp[,5],sep="-")
       tmp = tmp[which(signature%in%common.snps),]
       tmp = tmp[order(as.numeric(tmp[,1]),as.numeric(tmp[,2])),]
-      vcf = cbind(vcf,tmp[,10:ncol(vcf)])
+      vcf = cbind(vcf,tmp[,10:ncol(tmp)])
     }
   } else
   {
