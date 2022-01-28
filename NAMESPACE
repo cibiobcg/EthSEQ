@@ -11,4 +11,5 @@ import("gdsfmt")
 import("grDevices")
 export("ethseq.Analysis")
 export("ethseq.RM")
-import("Rcpp")
+importFrom(Rcpp,sourceCpp)
+

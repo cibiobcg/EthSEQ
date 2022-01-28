@@ -21,6 +21,7 @@ Imports: graphics,
     gdsfmt (>= 1.10.1),
     plot3D (>= 1.1),
     Rcpp (>= 0.11.0)
+LinkingTo: Rcpp
 RoxygenNote: 6.0.1
 biocViews: 
 Suggests: knitr,
