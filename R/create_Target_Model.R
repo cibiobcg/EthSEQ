@@ -5,6 +5,9 @@ create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.e
   files = files[which(files%in%paste(sample.names,".genotype.vcf",sep=""))]
   geno = fread(paste(genotype.dir,files[1],sep=""),sep="\t",header=T,data.table=FALSE,showProgress = F)
   
+  sourceCpp('src/splitDF.cpp')
+  geno = splitGenoDF(geno)
+  
   res = mclapply(files,function(f)
   {
     geno = fread(paste(genotype.dir,f,sep=""),sep="\t",header=T,data.table=FALSE,showProgress=F)
