@@ -6,6 +6,7 @@ create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.e
   geno = fread(paste(genotype.dir,files[1],sep=""),sep="\t",header=T,data.table=FALSE,showProgress = F)
   
   sourceCpp('src/splitDF.cpp')
+  message.Date("Cpp")
   print(geno[1:5,1:15])
   geno = splitGenoDF(geno)
   print(geno[1:5,1:15])
