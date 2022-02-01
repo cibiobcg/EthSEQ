@@ -5,7 +5,6 @@ create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.e
   files = files[which(files%in%paste(sample.names,".genotype.vcf",sep=""))]
   geno = fread(paste(genotype.dir,files[1],sep=""),sep="\t",header=T,data.table=FALSE,showProgress = F)
   
-  sourceCpp('src/splitDF.cpp')
   message.Date("Cpp")
   print(geno[1:5,1:15])
   geno = splitGenoDF(geno)
@@ -65,8 +64,7 @@ create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.e
 create.Target.Model.From.VCF <- function(vcf.fn,out.dir,cores)
 {
   vcf = fread(vcf.fn,sep="\t",data.table=FALSE,showProgress=FALSE)
-  sourceCpp('src/splitDF.cpp')
-  message.Date("Cpp")
+  message.Date("Cpp from VCF")
   vcf = splitGenoDF(vcf)
   
   ### Chromosomes without chr encoding
