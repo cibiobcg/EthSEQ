@@ -10,20 +10,21 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// splitGenoDF
-List splitGenoDF(DataFrame& df);
-RcppExport SEXP _EthSEQ_splitGenoDF(SEXP dfSEXP) {
+// convertGeno
+bool convertGeno(DataFrame& df, StringVector& ab);
+RcppExport SEXP _EthSEQ_convertGeno(SEXP dfSEXP, SEXP abSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame& >::type df(dfSEXP);
-    rcpp_result_gen = Rcpp::wrap(splitGenoDF(df));
+    Rcpp::traits::input_parameter< StringVector& >::type ab(abSEXP);
+    rcpp_result_gen = Rcpp::wrap(convertGeno(df, ab));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_EthSEQ_splitGenoDF", (DL_FUNC) &_EthSEQ_splitGenoDF, 1},
+    {"_EthSEQ_convertGeno", (DL_FUNC) &_EthSEQ_convertGeno, 2},
     {NULL, NULL, 0}
 };
 
