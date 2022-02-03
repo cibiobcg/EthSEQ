@@ -100,7 +100,7 @@ create.Target.Model.From.VCF <- function(vcf.fn,out.dir,cores)
   snpgdsCreateGeno(file.path(out.dir,"Target.gds"),
                    genmat = vcf,
                    sample.id = sample.id,
-                   snp.id = 1:ncol(geno),
+                   snp.id = 1:nrow(vcf),
                    snp.rs.id = vcf.info[,3],
                    snp.chromosome = vcf.info[,1],
                    snp.position = vcf.info[,2],
@@ -108,7 +108,7 @@ create.Target.Model.From.VCF <- function(vcf.fn,out.dir,cores)
                    snpfirstdim=TRUE)
   
   genofile <- snpgdsOpen(file.path(out.dir,"Target.gds"),readonly = F)
-  sample.annot <- data.frame(pop.group=rep("ND",nrow(geno)),sex=rep("M",nrow(geno)))
+  sample.annot <- data.frame(pop.group=rep("ND",ncol(vcf)),sex=rep("M",ncol(vcf)))
   add.gdsn(genofile,"sample.annot",sample.annot)
   
   add.gdsn(genofile,"snp.ref",vcf.info[,4])
