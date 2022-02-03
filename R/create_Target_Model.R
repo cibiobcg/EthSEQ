@@ -88,7 +88,7 @@ create.Target.Model.From.VCF <- function(vcf.fn,out.dir,cores)
 #    geno[,i] = tmp
 #  }
 #  
-  snp.allele = rep("A/B",ncol(geno))
+  snp.allele = rep("A/B",nrow(vcf))
 #  snp.allele[idx] = "B/A"
   convertGeno(vcf,snp.allele)
   
