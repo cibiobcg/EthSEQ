@@ -125,6 +125,7 @@ ethseq.Analysis <- function(
   # res = combine.Models(model.path,target.model,out.dir,composite.model.call.rate)
   snpgdsCombineGeno(c(target.model,model.path),file.path(out.dir,"Aggregated.gds"),
                     method = 'position',snpfirstdim = TRUE)
+  res = file.exists(file.path(out.dir,"Aggregated.gds"))
   genofile <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
   target.sample.annot = read.gdsn(index.gdsn(snpgdsOpen(target.model),'sample.annot'))
   reference.sample.annot = read.gdsn(index.gdsn(snpgdsOpen(model.path),'sample.annot'))
