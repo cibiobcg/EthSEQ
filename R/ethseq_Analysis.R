@@ -120,9 +120,18 @@ ethseq.Analysis <- function(
     target.model = target.gds
   }
   
-  ### Create Composite model
+  ### Create Composite model - DD Changed with SNPRelate function
   message.Date("Create aggregated model")
-  res = combine.Models(model.path,target.model,out.dir,composite.model.call.rate)
+  # res = combine.Models(model.path,target.model,out.dir,composite.model.call.rate)
+  snpgdsCombineGeno(c(target.model,model.path),file.path(out.dir,"Aggregated.gds"),
+                    method = 'position',snpfirstdim = TRUE)
+  genofile <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
+  target.sample.annot = read.gdsn(index.gdsn(snpgdsOpen(target.model),'sample.annot'))
+  reference.sample.annot = read.gdsn(index.gdsn(snpgdsOpen(model.path),'sample.annot'))
+  sample.annot <- rbind(target.sample.annot,reference.sample.annot)
+  add.gdsn(genofile,"sample.annot",sample.annot)
+  snpgdsClose(genofile)
+  
   if(!res)
   {
     message.Date("ERROR: Target and reference models are not compatible.")
