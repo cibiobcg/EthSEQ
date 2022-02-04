@@ -23,9 +23,9 @@ get.Ethnicity <- function(tab,space="2D")
   names(polygons) = populations
   names(polygons.area) = populations
   
-  if(sum(tab$sample.id=='ND')>0)
+  if(sum(tab$pop=='ND')>0)
   {
-    samples = tab[tab$sample.id=='ND',]
+    samples = tab[tab$pop=='ND',]
     samples$type = NA
     samples$pop = ""
     samples$contribution = ""
