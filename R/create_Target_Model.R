@@ -1,4 +1,3 @@
-
 create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.encoding)
 {
   files = list.files(genotype.dir,"genotype.vcf")
