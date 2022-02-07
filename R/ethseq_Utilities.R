@@ -23,3 +23,12 @@ get.OS <- function()
   }
   as.character(tolower(os))
 }
+
+### Get the list of available GDS models
+getModels <- fuction(assembly = 'hg19')
+{
+  id <- c()
+  names <- c()
+  assembly <- c()
+  sampleN <- c()
+}

@@ -67,6 +67,7 @@ ethseq.Analysis <- function(
     model.path = model.gds
   }
   
+  # Run ASEQ when target VCF and GDS are not provided
   if(is.na(target.vcf)&is.na(target.gds))
   {
     if(is.na(bam.list))
@@ -122,16 +123,16 @@ ethseq.Analysis <- function(
   
   ### Create Composite model - DD Changed with SNPRelate function
   message.Date("Create aggregated model")
-  # res = combine.Models(model.path,target.model,out.dir,composite.model.call.rate)
-  snpgdsCombineGeno(c(target.model,model.path),file.path(out.dir,"Aggregated.gds"),
-                    method = 'position',snpfirstdim = TRUE)
-  res = file.exists(file.path(out.dir,"Aggregated.gds"))
-  genofile <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
-  target.sample.annot = read.gdsn(index.gdsn(snpgdsOpen(target.model),'sample.annot'))
-  reference.sample.annot = read.gdsn(index.gdsn(snpgdsOpen(model.path),'sample.annot'))
-  sample.annot <- rbind(target.sample.annot,reference.sample.annot)
-  add.gdsn(genofile,"sample.annot",sample.annot)
-  snpgdsClose(genofile)
+  res = combine.Models(model.path,target.model,out.dir,composite.model.call.rate)
+  # snpgdsCombineGeno(c(target.model,model.path),file.path(out.dir,"Aggregated.gds"),
+  #                   method = 'position',snpfirstdim = TRUE)
+  # res = file.exists(file.path(out.dir,"Aggregated.gds"))
+  # genofile <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
+  # target.sample.annot = read.gdsn(index.gdsn(snpgdsOpen(target.model),'sample.annot'))
+  # reference.sample.annot = read.gdsn(index.gdsn(snpgdsOpen(model.path),'sample.annot'))
+  # sample.annot <- rbind(target.sample.annot,reference.sample.annot)
+  # add.gdsn(genofile,"sample.annot",sample.annot)
+  # snpgdsClose(genofile)
   
   if(!res)
   {
