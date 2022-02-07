@@ -8,11 +8,15 @@ combine.Models <- function(reference.fn,target.fn,out.dir,composite.model.call.r
   {
     # ancestry DataFrame have to be manually combined into aggregated model
     genofile <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
-    target.sample.annot = read.gdsn(index.gdsn(snpgdsOpen(target.fn),'sample.annot'))
-    reference.sample.annot = read.gdsn(index.gdsn(snpgdsOpen(reference.fn),'sample.annot'))
+    target.model = snpgdsOpen(target.fn)
+    target.sample.annot = read.gdsn(index.gdsn(target.model,'sample.annot'))
+    reference.model = snpgdsOpen(reference.fn)
+    reference.sample.annot = read.gdsn(index.gdsn(reference.model,'sample.annot'))
     sample.annot <- rbind(target.sample.annot,reference.sample.annot)
     add.gdsn(genofile,"sample.annot",sample.annot)
     snpgdsClose(genofile)
+    snpgdsClose(target.model)
+    snpgdsClose(reference.model)
     
     return(TRUE)
   } else 

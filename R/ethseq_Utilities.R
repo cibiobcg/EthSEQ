@@ -25,10 +25,9 @@ get.OS <- function()
 }
 
 ### Get the list of available GDS models
-# getModels <- fuction()
-# {
-#   id <- c()
-#   names <- c()
-#   assembly <- c()
-#   sampleN <- c()
-# }
+getModels <- fuction()
+{
+  exKit = system.file("extdata", "exonic_kits_map.tsv",
+              package="EthSEQ")
+  
+}
