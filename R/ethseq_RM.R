@@ -178,12 +178,12 @@ ethseq.RM <- function(
   #                  snpfirstdim=FALSE)
   # 
   genofile <- snpgdsOpen(file.path(out.dir,paste(model.name,".gds",sep="")),readonly = F)
-  sample.id = read.gdsn(index.gdsn(snpgdsOpen(genofile),'sample.id'))
+  sample.id = read.gdsn(index.gdsn(genofile,'sample.id'))
   annotations = annotations[which(annotations$sample%in%sample.id),]
   isort = match(sample.id,annotations$sample)
   annotations = annotations[isort,]
   
-  sample.annot <- data.frame(pop.group=annotations$pop,sex=rep(annotations$gender,nrow(geno)))
+  sample.annot <- data.frame(pop.group=annotations$pop,sex=annotations$gender)
   add.gdsn(genofile,"sample.annot",sample.annot)
   
   # add.gdsn(genofile,"snp.ref",vcf[,4])
