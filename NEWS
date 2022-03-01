@@ -1,5 +1,11 @@
 = EthSEQ News
 
+== Changes in EthSEQ 2.2.0
+
+* Added function to fast parse VCF file. The VCF files are now parsed.
+* Added hg19/38 parameter.
+* Rebuild reference models.
+
 == Changes in EthSEQ 2.1.4
 
 * Fixed pre-computed reference model download mode for Windows users.

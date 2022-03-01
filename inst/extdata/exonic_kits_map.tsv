@@ -1,5 +1,5 @@
 name	description	assembly	samples n.
-Gencode.Exome	Exon regions retrived from Gencode v39	hg38	1549
+Gencode.Exome	Exon regions of protein coding genes retrived from Gencode v39	hg38	1549
 SS5.Regions	Agilent SureSelect DNA – SureSelect Human All Exon V5	hg38	1549
 SS6r2.Regions	Agilent SureSelect DNA – SureSelect Human All Exon V6 r2	hg38	1549
 SS7.Regions	Agilent SureSelect DNA – SureSelect Human All Exon V7	hg38	1549

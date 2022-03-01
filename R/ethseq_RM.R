@@ -13,8 +13,6 @@
 #' @export
 
 
-vcf.fn = "/home/ddalfovo/Desktop/c_func/chr22.TCGA.genoTypes.commonSNPs.noDup.vcf"
-
 ethseq.RM <- function(
   vcf.fn,
   annotations,
