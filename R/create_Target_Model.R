@@ -1,4 +1,4 @@
-create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.encoding)
+.create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.encoding)
 {
   files = list.files(genotype.dir,"genotype.vcf")
   files = files[which(files%in%paste(sample.names,".genotype.vcf",sep=""))]
@@ -33,7 +33,7 @@ create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.e
   snpgdsCreateGeno(file.path(out.dir,"Target.gds"),
                    genmat = vcf,
                    sample.id = sample.id,
-                   snp.id = 1:nrow(vcf),
+                   snp.id = paste(vcf.info[,1],vcf.info[,2],vcf.info[,3],sep=":"),
                    snp.rs.id = vcf.info[,3],
                    snp.chromosome = vcf.info[,1],
                    snp.position = vcf.info[,2],
@@ -51,7 +51,7 @@ create.Target.Model <-function(sample.names,genotype.dir,out.dir,cores,bam.chr.e
 
 }
 
-create.Target.Model.From.VCF <- function(vcf.fn,out.dir,cores)
+.create.Target.Model.From.VCF <- function(vcf.fn,out.dir,cores)
 {
   vcf = fread(vcf.fn,sep="\t",data.table=FALSE,showProgress=FALSE)
   
@@ -94,7 +94,7 @@ create.Target.Model.From.VCF <- function(vcf.fn,out.dir,cores)
   snpgdsCreateGeno(file.path(out.dir,"Target.gds"),
                    genmat = vcf,
                    sample.id = sample.id,
-                   snp.id = 1:nrow(vcf),
+                   snp.id = paste(vcf.info[,1],vcf.info[,2],vcf.info[,3],sep=":"),
                    snp.rs.id = vcf.info[,3],
                    snp.chromosome = vcf.info[,1],
                    snp.position = vcf.info[,2],

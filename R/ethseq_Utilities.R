@@ -1,11 +1,11 @@
 ### Print a message with time info
-message.Date <- function(message)
+.message.Date <- function(message)
 {
   cat(paste("[",Sys.time() ,"] ",message,"\n",sep=""))
 }
 
 ### Get operating system
-get.OS <- function()
+.get.OS <- function()
 {
   sysinf <- Sys.info()
   if (!is.null(sysinf))
@@ -25,7 +25,7 @@ get.OS <- function()
 }
 
 ### Get the list of available GDS models
-getModels <- function()
+.getModels <- function()
 {
   exKit = system.file("extdata", "exonic_kits_map.tsv",
               package="EthSEQ")

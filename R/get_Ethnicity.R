@@ -1,4 +1,4 @@
-get.Ethnicity <- function(tab,space="2D")
+.get.Ethnicity <- function(tab,space="2D")
 {
   ## get population polygons
   populations = as.character(unique(tab$pop))
