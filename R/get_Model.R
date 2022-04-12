@@ -1,4 +1,4 @@
-get.Model <- function(model.available,model.folder)
+.get.Model <- function(model.available,model.folder)
 {
   if(!model.available%in%c("SS2.All","SS2.Major","SS4.All","SS4.Major","HALO.All","HALO.Major","NimblegenV3.All","NimblegenV3.Major","Exonic.All","Exonic.Major"))
   {

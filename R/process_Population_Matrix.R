@@ -1,4 +1,4 @@
-check.Matrix <- function(m,populations)
+.check.Matrix <- function(m,populations)
 {
   pos = c()
   for(i in 1:nrow(m))
@@ -17,7 +17,7 @@ check.Matrix <- function(m,populations)
   return(TRUE)
 }
 
-get.Position.Leafs <- function(m)
+.get.Position.Leafs <- function(m)
 {
   leaf = rep(FALSE,nrow(m))
   leaf[length(leaf)] = TRUE
@@ -32,7 +32,7 @@ get.Position.Leafs <- function(m)
   return(leaf)
 }
 
-get.Position.Matrix <- function(m)
+.get.Position.Matrix <- function(m)
 {
   n = matrix("",ncol=ncol(m),nrow=nrow(m))
   n[which(m[,1]!=""),1] = 1

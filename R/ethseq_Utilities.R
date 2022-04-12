@@ -25,7 +25,7 @@
 }
 
 ### Get the list of available GDS models
-.getModels <- function()
+getModels <- function()
 {
   exKit = system.file("extdata", "exonic_kits_map.tsv",
               package="EthSEQ")

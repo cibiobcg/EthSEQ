@@ -1,10 +1,10 @@
 
-distance.ethseq <- function(point,centroid)
+.distance.ethseq <- function(point,centroid)
 {
   return(dist(rbind(centroid,point),method="euclidean"))
 }
 
-centroid.ethseq <- function(k)
+.centroid.ethseq <- function(k)
 {
   t <- delaunayn(k,options="Qt");
   n <- dim(t)[1];
@@ -20,7 +20,7 @@ centroid.ethseq <- function(k)
   return(c/sum(w))
 }
 
-inhull.ethseq <- function(testpts, 
+.inhull.ethseq <- function(testpts, 
                           calpts,
                           hull=convhulln(calpts))
 { 

@@ -1,4 +1,4 @@
-plot.Report <-function(tab,samples,n.snps,polygons,polygons.area,out.dir,label="",space="2D")
+.plot.Report <-function(tab,samples,n.snps,polygons,polygons.area,out.dir,label="",space="2D")
 {
   pdf(file.path(out.dir,paste("Report",label,".pdf",sep="")),11, 8)
   
