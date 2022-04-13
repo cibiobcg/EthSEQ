@@ -17,7 +17,7 @@
       write.table(vcf,file.path(out.dir,"ModelPositions.vcf"),sep="\t",quote=F,row.names=F)
       snpgdsClose(model)
       ## Check ASEQ path or download
-      if(get.OS()=="linux")
+      if(.get.OS()=="linux")
       {
         aseq.exec = file.path(aseq.path,"ASEQ")
         if(!file.exists(aseq.exec))
@@ -28,13 +28,13 @@
         }
         for (b in bam.files)
         {
-          message.Date(paste("Computing pileup of BAM file ",b,sep=""))
+          .message.Date(paste("Computing pileup of BAM file ",b,sep=""))
           command = paste(aseq.exec," vcf=",file.path(out.dir,"ModelPositions.vcf")," bam=",b," mode=GENOTYPE threads=",cores," htperc=0.2 mbq=",mbq,
                           " mrq=",mrq," mdc=",mdc," out=",genotype.dir,sep="")
           system(command,ignore.stderr = T,ignore.stdout = T)
         }
       }
-      if(get.OS()=="osx")
+      if(.get.OS()=="osx")
       {
         aseq.exec = file.path(aseq.path,"ASEQ")
         if(!file.exists(aseq.exec))
@@ -49,7 +49,7 @@
           system(command,ignore.stderr = T,ignore.stdout = T)
         }
       }
-      if(get.OS()=="windows")
+      if(.get.OS()=="windows")
       {
         aseq.exec = file.path(aseq.path,"ASEQ.exe")
         if(!file.exists(aseq.exec))
@@ -64,7 +64,7 @@
         }
       }
     }, error = function(e) {
-      message.Date(e)
+      .message.Date(e)
       return(FALSE)
     })
   return(TRUE)

@@ -44,12 +44,12 @@ ethseq.Analysis <- function(
 {
   
   ## Version
-  message.Date("Running EthSEQ")
-  message.Date(paste("Working directory: ",out.dir,sep=""))
+  .message.Date("Running EthSEQ")
+  .message.Date(paste("Working directory: ",out.dir,sep=""))
   
   if(!file.exists(out.dir))
   {
-    message.Date(paste("Create ",out.dir," folder",sep=""))
+    .message.Date(paste("Create ",out.dir," folder",sep=""))
     dir.create(out.dir)
   }
   
@@ -58,10 +58,10 @@ ethseq.Analysis <- function(
   {
     if(is.na(model.available))
     {
-      message.Date("ERROR: model.gds or model.available variables should be specified.")
+      .message.Date("ERROR: model.gds or model.available variables should be specified.")
       return(FALSE)
     }
-    model.path = get.Model(model.available,model.folder)
+    model.path = .get.Model(model.available,model.folder)
   } else
   {
     model.path = model.gds
@@ -72,14 +72,14 @@ ethseq.Analysis <- function(
   {
     if(is.na(bam.list))
     {
-      message.Date("ERROR: target.vcf or bam.list variables should be specified.")
+      .message.Date("ERROR: target.vcf or bam.list variables should be specified.")
       return(FALSE)
     }
     
     ### Check if all BAM files exists
     if(run.genotype&any(!file.exists(unique(readLines(bam.list)))))
     {
-      message.Date("ERROR: one or more BAM files do not exist.")
+      .message.Date("ERROR: one or more BAM files do not exist.")
       return(FALSE)
     }
     bam.files = unique(readLines(bam.list))
@@ -90,30 +90,30 @@ ethseq.Analysis <- function(
     genotype.dir = file.path(out.dir,"ASEQGenotypes","")
     if(!file.exists(genotype.dir))
     {
-      message.Date(paste("Create ",genotype.dir," folder",sep=""))
+      .message.Date(paste("Create ",genotype.dir," folder",sep=""))
       dir.create(genotype.dir)
     }
     
-    message.Date(paste("Run ASEQ to generate genotypes for ",length(bam.files)," samples",sep=""))
+    .message.Date(paste("Run ASEQ to generate genotypes for ",length(bam.files)," samples",sep=""))
     if(run.genotype)
     {
-      res = aseq.Run(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.path,cores,bam.chr.encoding)
+      res = .aseq.Run(bam.files,aseq.path,genotype.dir,out.dir,mbq,mrq,mdc,model.path,cores,bam.chr.encoding)
       if(!res)
       {
-        message.Date("ERROR: Error while executing ASEQ.")
+        .message.Date("ERROR: Error while executing ASEQ.")
         return(FALSE)
       }
     }
     
     ## Create Target Model GDS file
-    message.Date("Create target model")
-    create.Target.Model(sample.names,genotype.dir,out.dir,cores,bam.chr.encoding)
+    .message.Date("Create target model")
+    .create.Target.Model(sample.names,genotype.dir,out.dir,cores,bam.chr.encoding)
     
     target.model = file.path(out.dir,"Target.gds")
   } else if(is.na(target.gds))
   {
-    message.Date("Create target model from VCF")
-    create.Target.Model.From.VCF(target.vcf,out.dir,cores)
+    .message.Date("Create target model from VCF")
+    .create.Target.Model.From.VCF(target.vcf,out.dir,cores)
 
     target.model = file.path(out.dir,"Target.gds")
   } else
@@ -122,8 +122,8 @@ ethseq.Analysis <- function(
   }
   
   ### Create Composite model - DD Changed with SNPRelate function
-  message.Date("Create aggregated model")
-  res = combine.Models(model.path,target.model,out.dir,composite.model.call.rate)
+  .message.Date("Create aggregated model")
+  res = .combine.Models(model.path,target.model,out.dir,composite.model.call.rate)
   # snpgdsCombineGeno(c(target.model,model.path),file.path(out.dir,"Aggregated.gds"),
   #                   method = 'position',snpfirstdim = TRUE)
   # res = file.exists(file.path(out.dir,"Aggregated.gds"))
@@ -136,12 +136,12 @@ ethseq.Analysis <- function(
   
   if(!res)
   {
-    message.Date("ERROR: Target and reference models are not compatible.")
+    .message.Date("ERROR: Target and reference models are not compatible.")
     return(FALSE)
   }
   
   ### Perform PCA
-  message.Date("Perform PCA on aggregated model")
+  .message.Date("Perform PCA on aggregated model")
 
   model <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
   pca <- snpgdsPCA(model,num.thread = cores,eigen.method = "DSPEVX",verbose = verbose,missing.rate = 1-composite.model.call.rate,eigen.cnt=5)
@@ -158,20 +158,20 @@ ethseq.Analysis <- function(
   snpgdsClose(model)
   
   ### Infer ethnicity
-  message.Date("Infer ethnicities")
-  annotations = get.Ethnicity(tab,space)
+  .message.Date("Infer ethnicities")
+  annotations = .get.Ethnicity(tab,space)
   
   if(!all(is.na(refinement.analysis)))
   {
-    res = check.Matrix(refinement.analysis,names(annotations[[2]]))
+    res = .check.Matrix(refinement.analysis,names(annotations[[2]]))
     if(!res)
     {
-      message.Date("ERROR: Refinement analysis matrix is wrongly formatted.")
+      .message.Date("ERROR: Refinement analysis matrix is wrongly formatted.")
       return(FALSE)
     }
     refinement.index = 1
-    refinement.leafs = get.Position.Leafs(refinement.analysis)
-    refinement.position = get.Position.Matrix(refinement.analysis)
+    refinement.leafs = .get.Position.Leafs(refinement.analysis)
+    refinement.position = .get.Position.Matrix(refinement.analysis)
     refinement.position = unlist(apply(refinement.position,1,function(x) x[which(x!="")]))
     refinement.position = as.numeric(refinement.position)
     refinement.analysis = unlist(apply(refinement.analysis,1,function(x) x[which(x!="")]))
@@ -180,17 +180,17 @@ ethseq.Analysis <- function(
     out = refinements[[1]][[1]][,c(1,2,8)]
     
     ### Plot visual PDF report
-    message.Date("Plot visual report")
+    .message.Date("Plot visual report")
     coord = annotations[[1]]
     n.dim = as.numeric(gsub("D","",space))-1
     coord = coord[,c(1,3:(3+n.dim))]
     coord[,1] = gsub("target.","",coord[,1])
     write.table(coord,file.path(out.dir,"Report_Ref0.PCAcoord"),sep="\t",row.names=F,quote=F)
-    plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],annotations[[3]],out.dir,label="_Ref0",space = space)
+    .plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],annotations[[3]],out.dir,label="_Ref0",space = space)
     
     for(s in 1:length(refinement.analysis))
     {
-      message.Date(paste("Refinement step ",s," on populations (",paste(refinement.analysis[[s]],collapse=","),")",sep=""))
+      .message.Date(paste("Refinement step ",s," on populations (",paste(refinement.analysis[[s]],collapse=","),")",sep=""))
       model <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
       samples <- refinements[[refinement.position[s]]][[1]]
       samples <- samples$sample.id[which(sapply(samples$pop,function(x) length(intersect(strsplit(x,"\\|")[[1]],strsplit(refinement.analysis[[s]],"\\|")[[1]]))>0))]
@@ -210,7 +210,7 @@ ethseq.Analysis <- function(
                         stringsAsFactors = FALSE)
       snpgdsClose(model)
       
-      annotations = get.Ethnicity(tab,space)
+      annotations = .get.Ethnicity(tab,space)
       if(annotations[[4]])
       {
         coord = annotations[[1]]
@@ -218,7 +218,7 @@ ethseq.Analysis <- function(
         coord = coord[,c(1,3:(3+n.dim))]
         coord[,1] = gsub("target.","",coord[,1])
         write.table(coord,file.path(out.dir,paste("Report_Ref",s,".PCAcoord",sep="")),sep="\t",row.names=F,quote=F)
-        plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],annotations[[3]],out.dir,label=paste("_Ref",s,sep=""),space = space)
+        .plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],annotations[[3]],out.dir,label=paste("_Ref",s,sep=""),space = space)
       }
       if(!refinement.leafs[s])
       {
@@ -240,14 +240,14 @@ ethseq.Analysis <- function(
       }
     }
     
-    message.Date("Print annotations")
+    .message.Date("Print annotations")
     out[,1] = gsub("target.","",out[,1])
     write.table(out,file.path(out.dir,"Report.txt"),sep="\t",row.names=F,quote=F)
     
   } else
   {
     ### Print ethnicity annotations on tex tab-delimited file
-    message.Date("Print annotations")
+    .message.Date("Print annotations")
     out = annotations[[1]]
     out = out[,c(1,2,8,9)]
     out[,1] = gsub("target.","",out[,1])
@@ -259,10 +259,10 @@ ethseq.Analysis <- function(
     write.table(out,file.path(out.dir,"Report.PCAcoord"),sep="\t",row.names=F,quote=F)
     
     ### Plot visual PDF report
-    message.Date("Plot visual report")
-    plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],annotations[[3]],out.dir,space=space)
+    .message.Date("Plot visual report")
+    .plot.Report(tab,annotations[[1]],length(pca$snp.id),annotations[[2]],annotations[[3]],out.dir,space=space)
   }
   
-  message.Date("Computation end")
+  .message.Date("Computation end")
   return(TRUE)
 }

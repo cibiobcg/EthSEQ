@@ -33,7 +33,7 @@
     centroids = list()
     for(j in 1:length(polygons))
     {
-      centroids[[length(centroids)+1]] = centroid.ethseq(polygons[[j]])
+      centroids[[length(centroids)+1]] = .centroid.ethseq(polygons[[j]])
     }
     
     for(i in 1:nrow(samples))
@@ -43,8 +43,8 @@
       
       for(j in 1:length(polygons))
       {
-        res = inhull.ethseq(pnts,polygons[[j]])
-        dist = c(dist,distance.ethseq(pnts,centroids[[j]]))
+        res = .inhull.ethseq(pnts,polygons[[j]])
+        dist = c(dist,.distance.ethseq(pnts,centroids[[j]]))
         
         if(res==1)
         {

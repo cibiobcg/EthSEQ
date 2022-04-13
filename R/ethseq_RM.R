@@ -28,20 +28,20 @@ ethseq.RM <- function(
   for(geno in vcf.fn)
   {
     ### Load VCF file
-    message.Date(paste("Load genotype data in VCF file: ",geno,sep=""))
-    vcf = fread(geno,data.table = FALSE)
+    .message.Date(paste("Load genotype data in VCF file: ",geno,sep=""))
+    vcf = fread(geno,data.table = FALSE,skip="#CHROM")
     ### Chromosomes without chr encoding
     vcf[,1] = gsub("chr","",as.character(vcf[,1]))
     vcf = vcf[which(vcf[,1]%in%1:22),]
     
     snp.allele = rep("A/B",nrow(vcf))
-    convertGeno(vcf,snp.allele)
+    .convertGeno(vcf,snp.allele)
 
     sample.id = colnames(vcf)[10:ncol(vcf)]
     ### Check names in VCF and annotations
     if(!all(sample.id%in%annotations$sample))
     {
-      message.Date("ERROR: Samples ID in VCF but not in annotations")
+      .message.Date("ERROR: Samples ID in VCF but not in annotations")
       return(FALSE)
     }
 
@@ -49,10 +49,10 @@ ethseq.RM <- function(
     ### Only SNPs in BED
     if(!is.na(bed.fn))
     {
-      message.Date("Load BED file")
+      .message.Date("Load BED file")
       bed = fread(bed.fn,data.table = FALSE)
       bed[,1] = gsub("chr","",as.character(bed[,1]))
-      message.Date("Filter VCF file based on BED file coordinates")
+      .message.Date("Filter VCF file based on BED file coordinates")
       is.in = unlist(mclapply(1:nrow(vcf),function(i)
       {
         tmp = bed[which(bed[,1]==vcf[i,1]),]
@@ -62,13 +62,13 @@ ethseq.RM <- function(
     }
     
     ### Select only variants with single reference and alternative bases
-    message.Date("Select variants with single reference and alternative bases")
+    .message.Date("Select variants with single reference and alternative bases")
     l1 = sapply(vcf[,4],function(x) length(strsplit(x,"")[[1]]))
     l2 = sapply(vcf[,5],function(x) length(strsplit(x,"")[[1]]))
     vcf = vcf[which(l1==1&l2==1),]
     
     ### Filter for call rate
-    message.Date("Filter VCF file based on SNPs call rates")
+    .message.Date("Filter VCF file based on SNPs call rates")
     cr = apply(vcf[,10:ncol(vcf)],1,function(x) length(which(!x%in%c("./.",".|.")))/length(x))
     vcf = vcf[which(cr>=call.rate),]
     
@@ -105,7 +105,7 @@ ethseq.RM <- function(
     # 
     # if(any(colnames(vcf)[10:ncol(vcf)]%in%samples))
     # {
-    #   message.Date("ERROR: duplicated samples in VCF files")
+    #   .message.Date("ERROR: duplicated samples in VCF files")
     #   return(FALSE)
     # }
     # samples = union(samples,colnames(vcf)[10:ncol(vcf)])
@@ -114,7 +114,7 @@ ethseq.RM <- function(
   ### Merge all vcf files
   if(length(vcf.fn)>1)
   {
-    message.Date("Merge GDS files")
+    .message.Date("Merge GDS files")
     snpgdsCombineGeno(file.path(out.dir,paste0(basename(vcf.fn),".gds")),file.path(out.dir,paste(model.name,".gds",sep="")), method="position",snpfirstdim = TRUE)
     # vcf = geno.list[[1]]
     # signature = paste(vcf[,1],vcf[,2],vcf[,3],vcf[,4],vcf[,5],sep="-")
@@ -137,7 +137,7 @@ ethseq.RM <- function(
     # vcf = vcf[order(as.numeric(vcf[,1]),as.numeric(vcf[,2])),]
   }
   
-  # message.Date("Create GDS reference model")
+  # .message.Date("Create GDS reference model")
   # geno = t(vcf[,10:ncol(vcf)])
   # res = mclapply(1:ncol(geno),function(i)
   # {

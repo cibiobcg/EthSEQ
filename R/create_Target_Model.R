@@ -2,13 +2,13 @@
 {
   files = list.files(genotype.dir,"genotype.vcf")
   files = files[which(files%in%paste(sample.names,".genotype.vcf",sep=""))]
-  geno = fread(paste(genotype.dir,files[1],sep=""),sep="\t",header=T,data.table=FALSE,showProgress = F)
+  geno = fread(paste(genotype.dir,files[1],sep=""),sep="\t",header=T,data.table=FALSE,showProgress = F,skip="#CHROM")
   
   if(length(files)>=2)
   {
     res = mclapply(files[2:length(files)],function(f)
     {
-      geno = fread(paste(genotype.dir,f,sep=""),sep="\t",header=T,data.table=TRUE,showProgress=F)
+      geno = fread(paste(genotype.dir,f,sep=""),sep="\t",header=T,data.table=TRUE,showProgress=F,skip="#CHROM")
       geno[,10]
       # geno[which(geno=="./.")] = "3"
       # geno[which(geno=="0/1")] = "1"
@@ -23,7 +23,7 @@
   vcf[,1] = gsub("chr","",as.character(vcf[,1]))
   snp.allele = rep("A/B",nrow(vcf))
   
-  convertGeno(vcf,snp.allele)
+  .convertGeno(vcf,snp.allele)
 
   vcf.info = vcf[,1:9]
   sample.id = colnames(vcf)[10:ncol(vcf)]
@@ -53,7 +53,7 @@
 
 .create.Target.Model.From.VCF <- function(vcf.fn,out.dir,cores)
 {
-  vcf = fread(vcf.fn,sep="\t",data.table=FALSE,showProgress=FALSE)
+  vcf = fread(vcf.fn,sep="\t",data.table=FALSE,showProgress=FALSE,skip="#CHROM")
   
   ### Chromosomes without chr encoding
   vcf[,1] = gsub("chr","",as.character(vcf[,1]))
@@ -84,7 +84,7 @@
 #  
   snp.allele = rep("A/B",nrow(vcf))
 #  snp.allele[idx] = "B/A"
-  convertGeno(vcf,snp.allele)
+  .convertGeno(vcf,snp.allele)
   
   vcf.info = vcf[,1:9]
   sample.id = colnames(vcf)[10:ncol(vcf)]
