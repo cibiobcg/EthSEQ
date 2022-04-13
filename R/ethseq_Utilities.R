@@ -24,6 +24,11 @@
   as.character(tolower(os))
 }
 
+#' List the models available
+#'
+#' This function prints the list of all available models.
+#'
+#' @export
 ### Get the list of available GDS models
 getModels <- function()
 {
