@@ -1,3 +1,16 @@
+#' List the models available
+#'
+#' This function prints the list of all available models.
+#'
+#' @export
+getModels <- function()
+{
+  exKit = system.file("extdata", "exonic_kits_map.tsv",
+                      package="EthSEQ")
+  fread(exKit)
+}
+
+
 ### Print a message with time info
 .message.Date <- function(message)
 {
@@ -22,17 +35,4 @@
       os <- "linux"
   }
   as.character(tolower(os))
-}
-
-#' List the models available
-#'
-#' This function prints the list of all available models.
-#'
-#' @export
-### Get the list of available GDS models
-getModels <- function()
-{
-  exKit = system.file("extdata", "exonic_kits_map.tsv",
-              package="EthSEQ")
-  fread(exKit)
 }
