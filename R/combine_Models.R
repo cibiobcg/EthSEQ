@@ -10,19 +10,19 @@
     genofile <- snpgdsOpen(file.path(out.dir,"Aggregated.gds"),readonly = F)
     target.model = snpgdsOpen(target.fn)
     target.sample.annot = read.gdsn(index.gdsn(target.model,'sample.annot'))
-    target.sign = paste(read.gdsn(index.gdsn(target.model,'snp.chromosome')),read.gdsn(index.gdsn(target.model,'snp.position')),sep=":")
+    # target.sign = paste(read.gdsn(index.gdsn(target.model,'snp.chromosome')),read.gdsn(index.gdsn(target.model,'snp.position')),sep=":")
     
     reference.model = snpgdsOpen(reference.fn)
     reference.sample.annot = read.gdsn(index.gdsn(reference.model,'sample.annot'))
-    reference.sign = paste(read.gdsn(index.gdsn(reference.model,'snp.chromosome')),read.gdsn(index.gdsn(reference.model,'snp.position')),sep=":")
-    ref.idx = reference.sign%in%target.sign
-    snp.ref = read.gdsn(index.gdsn(reference.model,'snp.ref'))[ref.idx]
-    snp.alt = read.gdsn(index.gdsn(reference.model,'snp.alt'))[ref.idx]
+    # reference.sign = paste(read.gdsn(index.gdsn(reference.model,'snp.chromosome')),read.gdsn(index.gdsn(reference.model,'snp.position')),sep=":")
+    # ref.idx = reference.sign%in%target.sign
+    # snp.ref = read.gdsn(index.gdsn(reference.model,'snp.ref'))[ref.idx]
+    # snp.alt = read.gdsn(index.gdsn(reference.model,'snp.alt'))[ref.idx⎄]
     
     sample.annot <- rbind(target.sample.annot,reference.sample.annot)
     add.gdsn(genofile,"sample.annot",sample.annot)
-    add.gdsn(genofile,"snp.ref",snp.ref)
-    add.gdsn(genofile,"snp.alt",snp.alt)
+    # add.gdsn(genofile,"snp.ref",snp.ref)
+    # add.gdsn(genofile,"snp.alt",snp.alt)
     snpgdsClose(genofile)
     snpgdsClose(target.model)
     snpgdsClose(reference.model)
