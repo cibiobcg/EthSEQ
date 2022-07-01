@@ -1,15 +1,29 @@
-name	description	assembly	samples n.
-Gencode.Exome	Exon regions of protein coding genes retrived from Gencode v39	hg38	1549
-SS5.Regions	Agilent SureSelect DNA – SureSelect Human All Exon V5	hg38	1549
-SS6r2.Regions	Agilent SureSelect DNA – SureSelect Human All Exon V6 r2	hg38	1549
-SS7.Regions	Agilent SureSelect DNA – SureSelect Human All Exon V7	hg38	1549
-SS7.MergedProbes	Agilent SureSelect DNA – SureSelect Human All Exon V7	hg38	1549
-SS8.Regions	Agilent SureSelect DNA – SureSelectXT Human All Exon V8	hg38	1549
-SS8.MergedProbes	Agilent SureSelect DNA – SureSelectXT Human All Exon V8	hg38	1549
-SS.CREv2.Regions	Agilent SureSelect DNA – SureSelect Clinical Research Exome V2	hg38	1549
-Twist	Twist Bioscience – Twist Exome Target	hg38	1549
-Twist.v2	Twist Bioscience - Twist Exome 2.0	hg38	1549
-KAPA.Capture	Roche - KAPA HyperExome Probes	hg38	1549
-KAPA.Primary	Roche - KAPA HyperExome Probes	hg38	1549
-MedExome.Capture	Roche - SeqCap EZ MedExome Probes	hg38	1549
-MedExome.Empirical	Roche - SeqCap EZ MedExome Probes	hg38	1549
+name	description	assembly	pop
+Gencode.Exome	Exon regions of protein coding genes retrived from Gencode v39	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS5.Regions	Agilent SureSelect DNA - SureSelect Human All Exon V5	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS6r2.Regions	Agilent SureSelect DNA - SureSelect Human All Exon V6 r2	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS7.Regions	Agilent SureSelect DNA - SureSelect Human All Exon V7	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS7.MergedProbes	Agilent SureSelect DNA - SureSelect Human All Exon V7	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS8.Regions	Agilent SureSelect DNA - SureSelectXT Human All Exon V8	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS8.MergedProbes	Agilent SureSelect DNA - SureSelectXT Human All Exon V8	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS.CREv2.Regions	Agilent SureSelect DNA - SureSelect Clinical Research Exome V2	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+Twist	Twist Bioscience - Twist Exome Target	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+Twist.v2	Twist Bioscience - Twist Exome 2.0	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+KAPA.Capture	Roche - KAPA HyperExome Probes	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+KAPA.Primary	Roche - KAPA HyperExome Probes	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+MedExome.Capture	Roche - SeqCap EZ MedExome Probes	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+MedExome.Empirical	Roche - SeqCap EZ MedExome Probes	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+Gencode.Exome	Exon regions of protein coding genes retrived from Gencode v39	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS5.Regions	Agilent SureSelect DNA - SureSelect Human All Exon V5	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS6r2.Regions	Agilent SureSelect DNA - SureSelect Human All Exon V6 r2	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS7.Regions	Agilent SureSelect DNA - SureSelect Human All Exon V7	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS7.MergedProbes	Agilent SureSelect DNA - SureSelect Human All Exon V7	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS8.Regions	Agilent SureSelect DNA - SureSelectXT Human All Exon V8	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS8.MergedProbes	Agilent SureSelect DNA - SureSelectXT Human All Exon V8	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+SS.CREv2.Regions	Agilent SureSelect DNA - SureSelect Clinical Research Exome V2	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+Twist	Twist Bioscience - Twist Exome Target	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+Twist.v2	Twist Bioscience - Twist Exome 2.0	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+KAPA.Capture	Roche - KAPA HyperExome Probes	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+KAPA.Primary	Roche - KAPA HyperExome Probes	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+MedExome.Capture	Roche - SeqCap EZ MedExome Probes	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS
+MedExome.Empirical	Roche - SeqCap EZ MedExome Probes	hg19,hg38	All,AFR,AMR,EAS,EUR,SAS

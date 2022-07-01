@@ -8,20 +8,22 @@
 #' @param out.dir Path to the folder where the output of the analysis is saved
 #' @param model.gds Path to a GDS file specifying the reference model
 #' @param model.available String specifying the pre-computed reference model to use (SS2,SS4,NimblegenV3,HALO,Exonic)
-#' @param model.folder Path to the folder where reference models are already present of downloaded when needed
+#' @param model.folder Path to the folder where reference models are already present or downloaded when needed
 #' @param run.genotype Logical values indicating wheter the ASEQ genotype should be run
-#' @param aseq.path Path to the folder where ASEQ binary is available of is downloaded when needed
+#' @param aseq.path Path to the folder where ASEQ binary is available or is downloaded when needed
 #' @param mbq Minmum base quality used in the pileup by ASEQ
 #' @param mrq Minimum read quality used in the piluep by ASEQ
-#' @param mdc Minimum read count accettable for genotype inference by ASEQ
+#' @param mdc Minimum read count acceptable  for genotype inference by ASEQ
 #' @param cores Number of parallel cores used for the analysis
-#' @param verbose Print detaild information
+#' @param verbose Print detailed information
 #' @param composite.model.call.rate SNP call rate used to run Principal Component Analysis (PCA)
-#' @param refinement.analysis Matrix specyfing a tree of ethnicities
+#' @param refinement.analysis Matrix specifying a tree of ethnicities
 #' @param space Dimensions of PCA space used to infer ethnicity (2D or 3D)
 #' @param bam.chr.encoding Logical value indicating whether input BAM files have chromosomes encoded with "chr" prefix
+#' @param assembly String value indicating the assembly of the human genome used to align
 #' @return Logical value indicating the success of the analysis
 #' @export
+
 ethseq.Analysis <- function(
   target.vcf = NA,
   target.gds = NA,
@@ -40,7 +42,8 @@ ethseq.Analysis <- function(
   composite.model.call.rate = 1,
   refinement.analysis = NA,
   space = "2D",
-  bam.chr.encoding = FALSE)
+  bam.chr.encoding = FALSE,
+  assembly = 'hg38')
 {
   
   ## Version
@@ -61,7 +64,7 @@ ethseq.Analysis <- function(
       .message.Date("ERROR: model.gds or model.available variables should be specified.")
       return(FALSE)
     }
-    model.path = .get.Model(model.available,model.folder)
+    model.path = .get.Model(model.available,model.folder, assembly)
   } else
   {
     model.path = model.gds
@@ -121,9 +124,9 @@ ethseq.Analysis <- function(
     target.model = target.gds
   }
   
-  ### Create Composite model - DD Changed with SNPRelate function
+  ### Create Composite model - Changes with SNPRelate function
   .message.Date("Create aggregated model")
-  res = .combine.Models(model.path,target.model,out.dir,composite.model.call.rate)
+  res = .combine.Models(model.path,target.model,out.dir,composite.model.call.rate,homoIntegration)
   # snpgdsCombineGeno(c(target.model,model.path),file.path(out.dir,"Aggregated.gds"),
   #                   method = 'position',snpfirstdim = TRUE)
   # res = file.exists(file.path(out.dir,"Aggregated.gds"))
