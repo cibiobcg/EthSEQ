@@ -43,7 +43,8 @@ ethseq.Analysis <- function(
   refinement.analysis = NA,
   space = "2D",
   bam.chr.encoding = FALSE,
-  assembly = 'hg38')
+  assembly = 'hg38',
+  pop = 'All')
 {
   
   ## Version

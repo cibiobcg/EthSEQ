@@ -1,27 +1,3 @@
-#' List the models available
-#'
-#' This function prints the list of all available models.
-#'
-#' @export
-getModels <- function()
-{
-  exKit = system.file("extdata", "exonic_kits_map.tsv",
-                      package="EthSEQ")
-  fread(exKit)
-}
-
-#' List the samples annotation
-#'
-#' This function prints the list of all available samples used to build the reference models.
-#'
-#' @export
-getPops <- function()
-{
-  exKit = system.file("extdata", "samplesPop_map.tsv",
-                      package="EthSEQ")
-  fread(exKit)
-}
-
 ### Print a message with time info
 .message.Date <- function(message)
 {
