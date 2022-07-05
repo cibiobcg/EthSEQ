@@ -66,6 +66,10 @@ ethseq.Analysis <- function(
       return(FALSE)
     }
     model.path = .get.Model(model.available,model.folder, assembly, pop)
+    if(is.na(model.path)){
+      .message.Date(paste("Model ",model.available," (using assembly ",assembly," and/or poopulation ",pop,") not available.\nPlease run getModels() to obtain the list of available models, assembly and populations.",sep=""))
+      return(FALSE)
+    }
   } else
   {
     model.path = model.gds

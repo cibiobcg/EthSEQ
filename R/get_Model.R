@@ -4,7 +4,6 @@
   if(is.data.frame(list.models)) {
     if(!any(list.models$name==model.available))
     {
-      .message.Date(paste("Model ",model.available," (using assembly ",assembly," and/or poopulation ",pop,") not available",sep=""))
       return(NA)
     }
     model.name = paste(model.available,".",assembly,".",pop,".Model.gds",sep="")
