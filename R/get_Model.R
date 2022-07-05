@@ -1,6 +1,6 @@
-.get.Model <- function(model.available, model.folder)
+.get.Model <- function(model.available, model.folder, assembly, pop)
 {
-  list.models = getModels(assembly, pop)
+  list.models = getModels()
   if(is.data.frame(list.models)) {
     if(!any(list.models$name==model.available))
     {
