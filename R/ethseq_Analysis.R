@@ -65,7 +65,7 @@ ethseq.Analysis <- function(
       .message.Date("ERROR: model.gds or model.available variables should be specified.")
       return(FALSE)
     }
-    model.path = .get.Model(model.available,model.folder, assembly)
+    model.path = .get.Model(model.available,model.folder, assembly, pop)
   } else
   {
     model.path = model.gds
