@@ -1,4 +1,4 @@
-.get.Model <- function(model.available, model.folder, assembly, pop)
+.get.Model <- function(model.available, model.folder)
 {
   list.models = getModels(assembly, pop)
   if(is.data.frame(list.models)) {
