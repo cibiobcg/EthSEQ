@@ -7,18 +7,13 @@
 #' @return data.frame of all available models to use with specified assembly and population
 #' @export
 
-getModels <- function()
+getModelsList <- function()
 {
-  if(assembly%in%c('hg19','hg38')&pop%in%c('All','AFR','AMR','EAS','EUR','SAS')) {
-    exKit = system.file("extdata", "exonic_kits_map.tsv",
-                        package="EthSEQ")
-    df = fread(exKit,data.table = F)
-    df = df[sapply(strsplit(df$assembly,","),function(obj){any(obj==assembly)})&sapply(strsplit(df$pop,","),function(obj){any(obj==pop)}),]
-    return(df)
-  } else {
-    .message.Date(paste0("ERROR: No available models using assembly: ",assembly," and/or population: ",pop))
-    return(FALSE)
-  }
+  exKit = system.file("extdata", "exonic_kits_map.tsv",
+                      package="EthSEQ")
+  df = fread(exKit,data.table = F)
+  df = df[sapply(strsplit(df$assembly,","),function(obj){any(obj==assembly)})&sapply(strsplit(df$pop,","),function(obj){any(obj==pop)}),]
+  return(df)
 }
 
 #' List the samples annotation
@@ -26,7 +21,7 @@ getModels <- function()
 #' This function prints the list of all available samples used to build the reference models.
 #'
 #' @export
-getPops <- function()
+getSamplesInfo <- function()
 {
   exKit = system.file("extdata", "samplesPop_map.tsv",
                       package="EthSEQ")
