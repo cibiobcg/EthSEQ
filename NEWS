@@ -1,9 +1,10 @@
 = EthSEQ News
 
-== Changes in EthSEQ 2.2.0
+== Changes in EthSEQ 3.0.0
 
-* Added function to fast parse VCF file. The VCF files are now parsed.
+* The VCF files are now parsed. Added function to perform a fast parse of the VCF file, using C++.
 * Added hg19/38 parameter.
+* Added population selection for models.
 * Rebuild reference models.
 
 == Changes in EthSEQ 2.1.4
