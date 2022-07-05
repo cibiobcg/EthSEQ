@@ -127,7 +127,7 @@ ethseq.Analysis <- function(
   
   ### Create Composite model - Changes with SNPRelate function
   .message.Date("Create aggregated model")
-  res = .combine.Models(model.path,target.model,out.dir,composite.model.call.rate,homoIntegration)
+  res = .combine.Models(model.path,target.model,out.dir)
   # snpgdsCombineGeno(c(target.model,model.path),file.path(out.dir,"Aggregated.gds"),
   #                   method = 'position',snpfirstdim = TRUE)
   # res = file.exists(file.path(out.dir,"Aggregated.gds"))
