@@ -20,7 +20,8 @@
 #' @param refinement.analysis Matrix specifying a tree of ethnicities
 #' @param space Dimensions of PCA space used to infer ethnicity (2D or 3D)
 #' @param bam.chr.encoding Logical value indicating whether input BAM files have chromosomes encoded with "chr" prefix
-#' @param assembly String value indicating the assembly of the human genome used to align
+#' @param model.assembly String value indicating the assembly version to download for the pre-build models
+#' @param model.pop String value indicating the population to download for the pre-build models
 #' @return Logical value indicating the success of the analysis
 #' @export
 
@@ -31,6 +32,8 @@ ethseq.Analysis <- function(
   out.dir = "/tmp",
   model.gds = NA,
   model.available = NA,
+  model.assembly = 'hg38',
+  model.pop = 'All',
   model.folder = "/tmp",
   run.genotype = FALSE,
   aseq.path = "/tmp",
@@ -42,9 +45,7 @@ ethseq.Analysis <- function(
   composite.model.call.rate = 1,
   refinement.analysis = NA,
   space = "2D",
-  bam.chr.encoding = FALSE,
-  assembly = 'hg38',
-  pop = 'All')
+  bam.chr.encoding = FALSE)
 {
   
   ## Version
@@ -65,9 +66,9 @@ ethseq.Analysis <- function(
       .message.Date("ERROR: model.gds or model.available variables should be specified.")
       return(FALSE)
     }
-    model.path = .get.Model(model.available,model.folder, assembly, pop)
+    model.path = .get.Model(model.available,model.folder, model.assembly, model.pop)
     if(is.na(model.path)){
-      .message.Date(paste("Model ",model.available," (using assembly ",assembly," and/or poopulation ",pop,") not available.\nPlease run getModelsList() to obtain the list of available models, assembly and populations.",sep=""))
+      .message.Date(paste("Model ",model.available," (using assembly ",model.assembly," and/or poopulation ",model.pop,") not available.\nPlease run getModelsList() to obtain the list of available models, assembly and populations.",sep=""))
       return(FALSE)
     }
   } else
@@ -164,6 +165,8 @@ ethseq.Analysis <- function(
                     EV5 = pca$eigenvect[,5],
                     stringsAsFactors = FALSE)
   snpgdsClose(model)
+  
+  
   
   ### Infer ethnicity
   .message.Date("Infer ethnicities")
