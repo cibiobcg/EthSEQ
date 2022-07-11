@@ -166,8 +166,6 @@ ethseq.Analysis <- function(
                     stringsAsFactors = FALSE)
   snpgdsClose(model)
   
-  
-  
   ### Infer ethnicity
   .message.Date("Infer ethnicities")
   annotations = .get.Ethnicity(tab,space)
