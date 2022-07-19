@@ -22,6 +22,11 @@ ethseq.RM <- function(
   call.rate = 1,
   cores = 1)
 {
+  if(!file.exists(out.dir))
+  {
+    .message.Date(paste("Create ",out.dir," folder",sep=""))
+    dir.create(out.dir)
+  }
   geno.list = list()
   common.snps = c()
   samples = c()
