@@ -4,7 +4,7 @@
 ##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
 ##INFO=<ID=AA_chimp,Number=1,Type=String,Description="Ancestral Allele, as extracted from the GRCh38-PanTro4 alignment from UCSC">
 ##INFO=<ID=AA_ensembl,Number=1,Type=String,Description="Ancestral Allele, as extracted from Ensembl's homo_sapiens_ancestor_GRCh38_e86 files, database: cc21_ensembl_compara_86@compara5:3306, MethodLinkSpeciesSet: 8 primates EPO (822)">
-#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	HGDP01201	HGDP01200	HGDP01361	HGDP01358	HGDP00228	HGDP01339
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	Sample1	Sample2	Sample3	Sample4	Sample5	Sample6
 chr22	41600477	rs17002508	G	C	.	PASS	AA_chimp=G;AA_ensembl=G	GT	1|1	1|0	0|0	0|0	0|0	0|0
 chr14	24338015	rs56337365	G	A	.	PASS	AA_chimp=A;AA_ensembl=A	GT	0|0	0|0	0|1	0|0	0|0	0|0
 chr20	10306440	rs1051312	T	C	.	PASS	AA_chimp=T;AA_ensembl=T	GT	1|0	0|0	0|0	0|0	1|0	0|0
