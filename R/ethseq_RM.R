@@ -85,7 +85,7 @@ ethseq.RM <- function(
     snpgdsCreateGeno(file.path(out.dir,paste0(basename(geno),".gds")),
                      genmat = vcf,
                      sample.id = sample.id,
-                     snp.id = 1:nrow(vcf),
+                     snp.id = paste(vcf.info[,1],vcf.info[,2],vcf.info[,3],sep=":"),
                      snp.rs.id = vcf.info[,3],
                      snp.chromosome = vcf.info[,1],
                      snp.position = vcf.info[,2],
