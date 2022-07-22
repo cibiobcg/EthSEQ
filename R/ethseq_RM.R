@@ -68,8 +68,8 @@ ethseq.RM <- function(
     
     ### Select only variants with single reference and alternative bases
     .message.Date("Select variants with single reference and alternative bases")
-    l1 = sapply(vcf[,4],function(x) length(strsplit(x,"")[[1]]))
-    l2 = sapply(vcf[,5],function(x) length(strsplit(x,"")[[1]]))
+    l1 = sapply(vcf[,4],function(x) nchar(x))
+    l2 = sapply(vcf[,5],function(x) nchar(x))
     vcf = vcf[which(l1==1&l2==1),]
     
     ### Filter for call rate
@@ -91,6 +91,7 @@ ethseq.RM <- function(
                      snp.position = vcf.info[,2],
                      snp.allele = snp.allele,
                      snpfirstdim=TRUE)
+    
     # 
     # 
     # 

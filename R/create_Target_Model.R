@@ -4,21 +4,13 @@
   files = files[which(files%in%paste(sample.names,".genotype.vcf",sep=""))]
   geno = fread(paste(genotype.dir,files[1],sep=""),sep="\t",header=T,data.table=FALSE,showProgress = F,skip="#CHROM")
   
-  if(length(files)>=2)
+  res = mclapply(files,function(f)
   {
-    res = mclapply(files[2:length(files)],function(f)
-    {
-      geno = fread(paste(genotype.dir,f,sep=""),sep="\t",header=T,data.table=TRUE,showProgress=F,skip="#CHROM")
-      geno[,10]
-      # geno[which(geno=="./.")] = "3"
-      # geno[which(geno=="0/1")] = "1"
-      # geno[which(geno=="0/0")] = "0"
-      # geno[which(geno=="1/1")] = "2"
-      # return(as.numeric(geno))
-    },mc.cores=cores)
-  }
+    geno = fread(paste(genotype.dir,f,sep=""),sep="\t",header=T,data.table=TRUE,showProgress=F,skip="#CHROM")
+    geno[,10]
+  },mc.cores=cores)
   
-  vcf = cbind(geno,data.frame(do.call(cbind,res)))
+  vcf = cbind(geno[,1:9],data.frame(do.call(cbind,res)))
   
   vcf[,1] = gsub("chr","",as.character(vcf[,1]))
   snp.allele = rep("A/B",nrow(vcf))
