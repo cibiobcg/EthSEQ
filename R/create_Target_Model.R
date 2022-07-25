@@ -50,32 +50,7 @@
   ### Chromosomes without chr encoding
   vcf[,1] = gsub("chr","",as.character(vcf[,1]))
   
-#  geno = t(vcf[,10:ncol(vcf)])
-#  res = mclapply(1:ncol(geno),function(i)
-#  {
-#    tmp = geno[,i]
-#    tmp[which(tmp=="./.")] = "3"
-#    tmp[which(tmp=="0/1")] = "1"
-#    tmp[which(tmp=="0/0")] = "0"
-#    tmp[which(tmp=="1/1")] = "2"
-#    return(as.numeric(tmp))
-#  },mc.cores=cores)
-#  
-#  geno = matrix(as.numeric(unlist(res)),nrow=length(res[[1]]),byrow=FALSE)
-#  
-#  mafs = 1-apply(geno,2,function(x) (length(which(x==0))*2+length(which(x==1)))/(length(which(x!=3))*2))
-#  idx = which(mafs>0.5)
-#  for(i in idx)
-#  {
-#    tmp = geno[,i]
-#    tmp[which(tmp==0)] = 4
-#    tmp[which(tmp==2)] = 0
-#    tmp[which(tmp==4)] = 2
-#    geno[,i] = tmp
-#  }
-#  
   snp.allele = rep("A/B",nrow(vcf))
-#  snp.allele[idx] = "B/A"
   .convertGeno(vcf,snp.allele)
   
   vcf.info = vcf[,1:9]
