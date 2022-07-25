@@ -100,28 +100,32 @@ ethseq.RM <- function(
     # 
     # geno.list[[length(geno.list)+1]] = vcf
     # 
-    # signature = paste(vcf[,1],vcf[,2],vcf[,3],vcf[,4],vcf[,5],sep="-")
-    # if(length(common.snps)==0)
-    # {
-    #   common.snps = signature
-    # } else
-    # {
-    #   common.snps = intersect(common.snps,signature)
-    # }
-    # 
-    # if(any(colnames(vcf)[10:ncol(vcf)]%in%samples))
-    # {
-    #   .message.Date("ERROR: duplicated samples in VCF files")
-    #   return(FALSE)
-    # }
-    # samples = union(samples,colnames(vcf)[10:ncol(vcf)])
+    signature = paste(vcf.info[,1],
+                      vcf.info[,2],
+                      vcf.info[,3],
+                      vcf.info[,4],
+                      vcf.info[,5],sep="-")
+    if(length(common.snps)==0)
+    {
+      common.snps = signature
+    } else
+    {
+      common.snps = intersect(common.snps,signature)
+    }
+
+    if(any(colnames(vcf)%in%samples))
+    {
+      .message.Date("ERROR: duplicated samples in VCF files")
+      return(FALSE)
+    }
+    samples = union(samples,colnames(vcf))
   }
   
   ### Merge all vcf files
   if(length(vcf.fn)>1)
   {
     .message.Date("Merge GDS files")
-    snpgdsCombineGeno(file.path(out.dir,paste0(basename(vcf.fn),".gds")),file.path(out.dir,paste(model.name,".gds",sep="")), method="position",snpfirstdim = TRUE)
+    snpgdsCombineGeno(file.path(out.dir,paste0(basename(vcf.fn),".gds")),file.path(out.dir,paste(model.name,".gds",sep="")), method="exact",snpfirstdim = TRUE)
     # vcf = geno.list[[1]]
     # signature = paste(vcf[,1],vcf[,2],vcf[,3],vcf[,4],vcf[,5],sep="-")
     # vcf = vcf[which(signature%in%common.snps),]
@@ -181,6 +185,7 @@ ethseq.RM <- function(
   #                  snp.allele = snp.allele,
   #                  snpfirstdim=FALSE)
   # 
+  
   genofile <- snpgdsOpen(file.path(out.dir,paste(model.name,".gds",sep="")),readonly = F)
   sample.id = read.gdsn(index.gdsn(genofile,'sample.id'))
   annotations = annotations[which(annotations$sample%in%sample.id),]
@@ -190,8 +195,19 @@ ethseq.RM <- function(
   sample.annot <- data.frame(pop.group=annotations$pop,sex=annotations$gender)
   add.gdsn(genofile,"sample.annot",sample.annot)
   
-  # add.gdsn(genofile,"snp.ref",vcf[,4])
-  # add.gdsn(genofile,"snp.alt",vcf[,5])
+  signature.aggregated = paste(read.gdsn(index.gdsn(genofile,'snp.chromosome')),
+                               read.gdsn(index.gdsn(genofile,'snp.position')),
+                               read.gdsn(index.gdsn(genofile,'snp.rs.id')),sep="-")
+  common.snps.ref = sapply(strsplit(common.snps,"-"),'[[',4)
+  common.snps.alt = sapply(strsplit(common.snps,"-"),'[[',5)
+  common.snps = gsub("-[ACGT]-[ACGT]","",common.snps)
+  common.snps.ref = common.snps.ref[which(common.snps%in%signature.aggregated)]
+  common.snps.alt = common.snps.alt[which(common.snps%in%signature.aggregated)]
+  common.snps = common.snps[which(common.snps%in%signature.aggregated)]
+  isort = match(signature.aggregated,common.snps)
+
+  add.gdsn(genofile,"snp.ref",common.snps.ref[isort])
+  add.gdsn(genofile,"snp.alt",common.snps.alt[isort])
   # annotations
   snpgdsClose(genofile)
   
