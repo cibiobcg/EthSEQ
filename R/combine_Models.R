@@ -1,4 +1,4 @@
-.combine.Models <- function(reference.fn,target.fn,out.dir)
+.combine.Models <- function(reference.fn,target.fn,out.dir,verbose)
 {
   snpgdsCombineGeno(c(target.fn,reference.fn),
                     file.path(out.dir,"Aggregated.gds"),

@@ -7,6 +7,7 @@
 #' @param out.dir Path to output folder
 #' @param model.name Name of the output model
 #' @param bed.fn path to BED file with regions of interest
+#' @param verbose Print detailed information
 #' @param call.rate SNPs call rate cutoff for inclusion in the final reference model
 #' @param cores How many parallel cores to use in the reference model generation
 #' @return Logical value indicating the success of the analysis
@@ -19,6 +20,7 @@ ethseq.RM <- function(
   out.dir = "./",
   model.name = "Reference.Model",
   bed.fn = NA,
+  verbose = TRUE,
   call.rate = 1,
   cores = 1)
 {
