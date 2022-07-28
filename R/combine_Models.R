@@ -1,7 +1,10 @@
 .combine.Models <- function(reference.fn,target.fn,out.dir)
 {
-  snpgdsCombineGeno(c(target.fn,reference.fn),file.path(out.dir,"Aggregated.gds"),
-                    method = 'position',snpfirstdim = TRUE)
+  snpgdsCombineGeno(c(target.fn,reference.fn),
+                    file.path(out.dir,"Aggregated.gds"),
+                    method = 'position',
+                    verbose=verbose,
+                    snpfirstdim = TRUE)
   
   if(file.exists(file.path(out.dir,"Aggregated.gds")))
   {

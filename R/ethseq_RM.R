@@ -125,7 +125,11 @@ ethseq.RM <- function(
   if(length(vcf.fn)>1)
   {
     .message.Date("Merge GDS files")
-    snpgdsCombineGeno(file.path(out.dir,paste0(basename(vcf.fn),".gds")),file.path(out.dir,paste(model.name,".gds",sep="")), method="position",snpfirstdim = TRUE)
+    snpgdsCombineGeno(file.path(out.dir,paste0(basename(vcf.fn),".gds")),
+                      file.path(out.dir,paste(model.name,".gds",sep="")),
+                      method="position",
+                      verbose=verbose,
+                      snpfirstdim = TRUE)
     # vcf = geno.list[[1]]
     # signature = paste(vcf[,1],vcf[,2],vcf[,3],vcf[,4],vcf[,5],sep="-")
     # vcf = vcf[which(signature%in%common.snps),]

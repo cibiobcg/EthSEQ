@@ -11,7 +11,7 @@
                   read.gdsn(index.gdsn(model,"snp.ref")),
                   read.gdsn(index.gdsn(model,"snp.alt")),
                   ".",".",".")
-      colnames(vcf)= c("CHR","POS","ID","REF","ALT","QUAL","FILTER","INFO")
+      colnames(vcf)= c("#CHROM","POS","ID","REF","ALT","QUAL","FILTER","INFO")
       if(bam.chr.encoding)
         vcf[,1] = paste("chr",vcf[,1],sep="")
       write.table(vcf,file.path(out.dir,"ModelPositions.vcf"),sep="\t",quote=F,row.names=F)
