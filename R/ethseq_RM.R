@@ -211,7 +211,7 @@ ethseq.RM <- function(
   common.snps.alt = common.snps.alt[which(common.snps%in%signature.aggregated)]
   common.snps = common.snps[which(common.snps%in%signature.aggregated)]
   isort = match(signature.aggregated,common.snps)
-
+  
   add.gdsn(genofile,"snp.ref",common.snps.ref[isort])
   add.gdsn(genofile,"snp.alt",common.snps.alt[isort])
   # annotations
