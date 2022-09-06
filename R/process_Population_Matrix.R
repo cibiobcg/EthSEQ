@@ -28,48 +28,6 @@
   return(any(c(unlist(r),olapsPops,parentPops)))
 }
 
-
-
-.check.Matrix <- function(m,populations, col.m, row.start.m, row.stop.m)
-{
-  if(row.stop.m-row.start.m!=0&col.m<=ncol(m)){
-    
-    siblingNodes = m[row.start.m:row.stop.m,col.m]
-    parentPops = .check.Parent.Pops(siblingNodes[siblingNodes!=""],populations)
-    
-    idx = which(siblingNodes!="")
-    idx = (idx+row.start.m)-1
-    olapsPops = .check.Sibling.Pops(m[idx,col.m])
-    idx = c(idx,row.stop.m+1)
-    r = lapply(1:(length(idx)-1),function(x)
-    {
-      .check.Matrix(m,populations = unlist(strsplit(siblingNodes[x],"\\|")),col.m = col.m+1, row.start.m = idx[x], row.stop.m = idx[x+1]-1)
-    })
-  } else {
-    return(FALSE)
-  }
-  any(c(unlist(r),olapsPops,parentPops))
-}
-
-.check.Matrix <- function(m,populations)
-{
-  pos = c()
-  for(i in 1:nrow(m))
-  {
-    id = which(m[i,]!="")
-    if(length(id)==0)
-      return(FALSE)
-    res = TRUE
-    if(id>1)
-      res = all(c(1:(id-1))%in%pos)
-    pos = c(pos,id)
-    pops = strsplit(m[i,id],"\\|")[[1]]
-    if(!all(pops%in%populations)|!res)
-      return(FALSE)
-  }
-  return(TRUE)
-}
-
 .get.Position.Leafs <- function(m)
 {
   leaf = rep(FALSE,nrow(m))
