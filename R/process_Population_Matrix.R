@@ -8,24 +8,24 @@
   !all(unlist(strsplit(siblings,"\\|"))%in%populations)
 }
 
-.check.Matrix <- function(m,populations,col)
+.check.Matrix <- function(m,populations)
 {
   if(!is.null(nrow(m))&!is.null(ncol(m))){
-    idx = which(m[,col+1]!="")
+    idx = which(m[,1]!="")
     
-    olapsPops = .check.Sibling.Pops(m[idx,col+1])
-    parentPops = .check.Parent.Pops(m[idx,col+1],populations)
+    olapsPops = .check.Sibling.Pops(m[idx,1])
+    parentPops = .check.Parent.Pops(m[idx,1],populations)
     
     idx = c(idx,nrow(m)+1)
     
     r = lapply(1:(length(idx)-1),function(x)
     {
-      .check.Matrix(m = m[idx[x]:(idx[x+1]-1),], populations = unlist(strsplit(m[idx[x],col+1],"\\|")),col = col+1)
+      .check.Matrix(m = m[idx[x]:(idx[x+1]-1),-1], populations = unlist(strsplit(m[idx[x],1],"\\|")))
     })
   } else {
     return(FALSE)
   }
-  any(c(unlist(r),olapsPops,parentPops))
+  return(any(c(unlist(r),olapsPops,parentPops)))
 }
 
 

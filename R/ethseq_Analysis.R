@@ -172,8 +172,8 @@ ethseq.Analysis <- function(
   
   if(!all(is.na(refinement.analysis)))
   {
-    res = .check.Matrix(refinement.analysis,names(annotations[[2]]), col = 0)
-    if(!res)
+    res = .check.Matrix(refinement.analysis,names(annotations[[2]]))
+    if(res)
     {
       .message.Date("ERROR: Refinement analysis matrix is wrongly formatted.")
       return(FALSE)
