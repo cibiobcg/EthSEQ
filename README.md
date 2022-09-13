@@ -82,15 +82,15 @@ library(EthSEQ)
 download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP00228.sub_GRCh38.bam",
               destfile = file.path(tempdir(),"HGDP00228.sub_GRCh38.bam"))
 download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP00228.sub_GRCh38.bam.bai",
-              destfile = file.path(tempdir(),"HGDP00228.sub_GRCh38.bam"))
+              destfile = file.path(tempdir(),"HGDP00228.sub_GRCh38.bam.bai"))
 download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP01200.sub_GRCh38.bam",
-              destfile = file.path(tempdir(),"HGDP00228.sub_GRCh38.bam"))
+              destfile = file.path(tempdir(),"HGDP01200.sub_GRCh38.bam"))
 download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP01200.sub_GRCh38.bam.bai",
-              destfile = file.path(tempdir(),"HGDP00228.sub_GRCh38.bam.bai"))
+              destfile = file.path(tempdir(),"HGDP01200.sub_GRCh38.bam.bai"))
 download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP01201.sub_GRCh38.bam",
-              destfile = file.path(tempdir(),"HGDP00228.sub_GRCh38.bam"))
+              destfile = file.path(tempdir(),"HGDP01201.sub_GRCh38.bam"))
 download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP01201.sub_GRCh38.bam.bai",
-              destfile = file.path(tempdir(),"HGDP00228.sub_GRCh38.bam.bai"))
+              destfile = file.path(tempdir(),"HGDP01201.sub_GRCh38.bam.bai"))
 
 ## Create BAM files list 
 write(c(file.path(tempdir(),"HGDP00228.sub_GRCh38.bam"),
@@ -163,7 +163,7 @@ ethseq.RM(
   vcf.fn = vcf.files,
   annotations = annot.samples,
   out.dir = file.path(tempdir(),"EthSEQ_Analysis/"),
-  model.name = "Reference.Gencode.Exome.10000SNPs")
+  model.name = "Reference.Gencode.Exome.10000SNPs",
   bed.fn = NA,
   call.rate = 1,
   cores = 1)
