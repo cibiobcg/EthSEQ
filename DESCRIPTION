@@ -5,7 +5,7 @@ Version: 3.0.0
 Authors@R: c(person("Alessandro", "Romanel", email = "alessandro.romanel@unitn.it",
                   role = c("aut", "cre")),
              person("Davide","Dalfovo", email = "davide.dalfovo@unitn.it",
-                  role = c("aut", "cre")))
+                  role = c("cre")))
 Description: Reliable and rapid ethnicity annotation from whole exome and targeted sequencing data.
 License: GPL-3
 Depends:
