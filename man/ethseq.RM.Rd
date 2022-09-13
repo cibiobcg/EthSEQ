@@ -2,21 +2,31 @@
 % Please edit documentation in R/ethseq_RM.R
 \name{ethseq.RM}
 \alias{ethseq.RM}
-\title{Create Reference Model for Ethnicity Analysis}
+\title{Create Reference Model for Ancestry Analysis}
 \usage{
-ethseq.RM(vcf.fn, annotations, out.dir = "./",
-  model.name = "Reference.Model", bed.fn = NA, call.rate = 1, cores = 1)
+ethseq.RM(
+  vcf.fn,
+  annotations,
+  out.dir = "./",
+  model.name = "Reference.Model",
+  bed.fn = NA,
+  verbose = TRUE,
+  call.rate = 1,
+  cores = 1
+)
 }
 \arguments{
 \item{vcf.fn}{vector of paths to genotype files in VCF format}
 
-\item{annotations}{data.frame with mapping of all samples names, ethnicities and gender}
+\item{annotations}{data.frame with mapping of all samples names, ancestries and gender}
 
 \item{out.dir}{Path to output folder}
 
 \item{model.name}{Name of the output model}
 
 \item{bed.fn}{path to BED file with regions of interest}
+
+\item{verbose}{Print detailed information}
 
 \item{call.rate}{SNPs call rate cutoff for inclusion in the final reference model}
 
@@ -26,5 +36,5 @@ ethseq.RM(vcf.fn, annotations, out.dir = "./",
 Logical value indicating the success of the analysis
 }
 \description{
-This function creates a GDS reference model that can be used to performe EthSEQ ethnicity analysis
+This function creates a GDS reference model that can be used to performe EthSEQ ancestry analysis
 }

@@ -9,67 +9,70 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Whole exome sequencing (WES) is widely utilized both in translational cancer genomics studies and in the setting of precision medicine. Stratification of individual’s ethnicity is fundamental for the correct interpretation of personal genomic variation impact. We implemented EthSEQ to provide reliable and rapid ethnicity annotation from whole exome sequencing individual’s data. EthSEQ can be integrated into any WES based processing pipeline and exploits multi-core capabilities.
+Whole-exome sequencing (WES) and targeted sequencing (TS) are widely utilized both in translational cancer genomics studies and in the setting of precision medicine. Stratification of individuals' ethnicity/ancestry is fundamental for the correct interpretation of personal genomic variation impact. We implemented EthSEQ to provide reliable and rapid ancestry annotation from whole -exome and targeted sequencing data. EthSEQ can be integrated into any WES or TS based processing pipeline and exploits multi-core capabilities.
 
-EthSEQ requires genotype data at SNPs positions for a set of individuals with known ethnicity (the reference model) and either a list of BAM files or genotype data (in VCF format) of individuals with unknown ethnicity. EthSEQ annotates the ethnicity of each individual using an automated procedure and returns detailed information
-about individual’s inferred ethnicity, including aggregated visual reports. 
+EthSEQ requires genotype data at SNPs positions for a set of individuals with known ancestry (the reference model) and either a list of BAM files or genotype data (in VCF or GDS formats) of individuals with unknown ancestry (the target model). EthSEQ annotates the ancestry of each individual using an automated procedure and returns detailed information about individual’s inferred ancestry, including aggregated visual reports. 
 
 ***
-
 ## Perform ethnicity analysis with individuals genotype data from VCF file
 
-Analysis of 6 individuals from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data. Genotype data for 10,000 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ in VCF format while reference model is provided in GDS format and describes genotype data for 1,000 Genome Project individuls for the same SNPs set. 
+Analysis of target individuals genotype data exploiting a reference model built from 1,000 Genome Project genotype data. Genotype data for 10,000 exonic SNPs are provided in input to EthSEQ in VCF format while the reference model is provided in GDS format and describes genotype data for 1,000 Genome Project individuals for the same SNPs set. 
 
-```{r}
+```{r,eval=TRUE}
 library(EthSEQ)
-
-out.dir = file.path(tempdir(),"EthSEQ_Analysis/")
 
 ## Run the analysis
 ethseq.Analysis(
-  target.vcf = system.file("extdata", "Samples_SS2_10000SNPs.vcf",package="EthSEQ"),
-  out.dir = out.dir,
-  model.gds = system.file("extdata", "Reference_SS2_10000SNPs.gds",package="EthSEQ"),
+  target.vcf = system.file("extdata", "Samples.HGDP.10000SNPs.vcf",
+  package="EthSEQ"),
+  model.gds = system.file("extdata", "Reference.Gencode.Exome.10000SNPs.gds",package="EthSEQ"),
+  out.dir = file.path(tempdir(),"EthSEQ_Analysis/"),
   verbose=TRUE,
+  cores =1,
   composite.model.call.rate = 1,
-  space = "3D") # Default space is 2D
+  space = "3D")
 
-# Load and display computed ethnicity annotations
-ethseq.annotations = read.delim(file.path(out.dir,"Report.txt"),sep="\t",as.is=TRUE,header=TRUE)
+## Load and display computed ethnicity annotations
+ethseq.annotations = read.delim(file.path(tempdir(),"thSEQ_Analysis/Report.txt"),
+	sep="\t",as.is=TRUE,header=TRUE)
 head(ethseq.annotations)
- 
+
 ## Delete analysis folder
-unlink(out.dir,recursive=TRUE)
+unlink(file.path(tempdir(),"EthSEQ_Analysis/"),recursive=TRUE)
 ```
+
+Current version of EthSEQ manages only VCF files with the following format:
+- FORMAT column should contain "GT"
+- Only genotypes 0/0, 0/1, 1/1 and ./. are admitted
+- Only positions with single reference and single alternative base are admitted
+- No duplicate IDs are admitted (so no multiple variants with ID equal to ".") 
+- No duplicated sample names are admitted
+- No duplicated positions are admitted
 
 ## Perform ethnicity analysis using pre-computed reference model
 
-Analysis of 6 individuals from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data. Genotype data for 123,292 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ in VCF format while reference model selected among the set of pre-computed reference model. Reference model SS2.Major refers to the reference model built from 1550 individuals (from AFR, EUR, SAS and EAS major populations) from 1,000 Genome Project and considering 123,292 SNPs included in Agilent Sure Select v2 captured regions. Note that a reference model version called SS2 considering gentoype data for more than 2,000 individuals from 1,000 Genome Project is also available.
+Analysis of target individuals genotype data using a reference model built from 1,000 Genome Project genotype data. Genotype data for 10,000 exonic SNPs are provided in input to EthSEQ in VCF format while reference model selected among the set of pre-computed reference models. Reference model Gencode.Exome is used considering hg38 human reference genome assembly and All populations (EUR, AFR, AMR, SAS, EAS). The complete list of reference models can be visualized using the function getModelsList().
 
 ```{r,eval=FALSE}
 library(EthSEQ)
 
-data.dir = file.path(tempdir(),"EthSEQ_Data/")
-out.dir = file.path(tempdir(),"EthSEQ_Analysis/")
-
-## Download genotype data in VCF format
-dir.create(data.dir)
-download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/Sample_SS2.vcf",
-  destfile = file.path(data.dir,"Sample_SS2.vcf"))
+## View all available reference models
+getModelsList()
 
 ## Run the analysis
 ethseq.Analysis(
-  target.vcf =  file.path(data.dir,"Sample_SS2.vcf"),
-  out.dir = out.dir,
-  model.available = "SS2.Major",
-  model.folder = data.dir,
+  target.vcf = system.file("extdata", "Samples.HGDP.10000SNPs.vcf",package="EthSEQ"),
+  model.available = "Gencode.Exome",
+  model.assembly = "hg38",
+  model.pop = "All",
+  out.dir = file.path(tempdir(),"EthSEQ_Analysis/"),
   verbose=TRUE,
+  cores =1,
   composite.model.call.rate = 1,
-  space = "3D") # Default space is 2D
+  space = "3D")
 
 ## Delete analysis folder
-unlink(data.dir,recursive=TRUE)
-unlink(out.dir,recursive=TRUE)
+unlink(file.path(tempdir(),"EthSEQ_Analysis/"),recursive=TRUE)
 ```
 
 ## Perform ethnicity analysis from BAM files list
@@ -79,107 +82,97 @@ Analysis of individual NA07357 from 1,000 Genome Project using a reference model
 ```{r,eval=FALSE}
 library(EthSEQ)
 
-data.dir = file.path(tempdir(),"EthSEQ_Data")
-out.dir = file.path(tempdir(),"EthSEQ_Analysis")
-
 ## Download BAM file used in the analysis
-dir.create(data.dir)
-download.file(
- "https://github.com/aromanel/EthSEQ_Data/raw/master/NA07357_only10000SNPs.bam",
- destfile = file.path(data.dir,"Sample.bam"))
-download.file(
- "https://github.com/aromanel/EthSEQ_Data/raw/master/NA07357_only10000SNPs.bam.bai",
- destfile = file.path(data.dir,"Sample.bam.bai"))
+download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP00228.sub_GRCh38.bam",
+              destfile = file.path(tempdir(),"HGDP00228.sub_GRCh38.bam"))
+download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP00228.sub_GRCh38.bam.bai",
+              destfile = file.path(tempdir(),"HGDP00228.sub_GRCh38.bam.bai"))
+download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP01200.sub_GRCh38.bam",
+              destfile = file.path(tempdir(),"HGDP01200.sub_GRCh38.bam"))
+download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP01200.sub_GRCh38.bam.bai",
+              destfile = file.path(tempdir(),"HGDP01200.sub_GRCh38.bam.bai"))
+download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP01201.sub_GRCh38.bam",
+              destfile = file.path(tempdir(),"HGDP01201.sub_GRCh38.bam"))
+download.file("https://github.com/cibiobcg/EthSEQ_Data/raw/master/BAM/HGDP01201.sub_GRCh38.bam.bai",
+              destfile = file.path(tempdir(),"HGDP01201.sub_GRCh38.bam.bai"))
 
 ## Create BAM files list 
-write(file.path(data.dir,"Sample.bam"),file.path(data.dir,"BAMs_List.txt"))
+write(c(file.path(tempdir(),"HGDP00228.sub_GRCh38.bam"),
+        file.path(tempdir(),"HGDP01200.sub_GRCh38.bam"),
+        file.path(tempdir(),"HGDP01201.sub_GRCh38.bam")),
+        file.path(tempdir(),"BAMs_List.txt"))
 
 ## Run the analysis
 ethseq.Analysis(
-  bam.list = file.path(data.dir,"BAMs_List.txt"),
-  out.dir = out.dir,
-  model.gds = system.file("extdata","Reference_SS2_10000SNPs.gds",
-     package="EthSEQ"),
-  verbose=TRUE,
-  aseq.path = out.dir,
-  mbq=20,
-  mrq=20,
-  mdc=10,
+  bam.list = file.path(tempdir(),"BAMs_List.txt"),
+  model.available = "Gencode.Exome",
+  out.dir = file.path(tempdir(),"EthSEQ_Analysis/"),
+  verbose = TRUE,
+  cores = 1,
+  aseq.path = file.path(tempdir(),"EthSEQ_Analysis/"),
   run.genotype = TRUE,
+  mbq = 20,
+  mrq = 20,
+  mdc = 10,
   composite.model.call.rate = 1,
-  cores=1,
-  bam.chr.encoding = FALSE) # chromosome names encoded without "chr" prefix in BAM files
+  space = "3D",
+  bam.chr.encoding = TRUE) # chromosome names encoded without "chr" prefix in BAM files
 
 ## Delete analysis folder
-unlink(data.dir,recursive=TRUE)
-unlink(out.dir,recursive=TRUE)
+unlink(file.path(tempdir(),"EthSEQ_Analysis/"),recursive=TRUE)
 ```
 
 ## Perform ethnicity analysis using multi-step refinement
 
-Multi-step refinement Analysis of individuals from 1,000 Genome Project using a reference model built from 1,000 Genome Project individual's genotype data (set of analysed individuals and individuals used for the reference model are disjoint). Genotype data for 10,000 SNPs included in Agilent Sure Select v2 captured regions are provided in input to EthSEQ in GDS format while reference model is provided in GDS format and describes genotype data for 1,000 Genome Project reference individuls for the same SNPs set. Multi-step refinement tree is constructed as matrix. Non-empty cells in columns i contains parent nodes for non-empty cells in columns i+1. Ethnic groups in child nodes should be included in parent nodes, while siblings node ethnic groups should be disjoint. Consult EthSEQ paper supplementary material for more complicated examples.  
+Multi-step refinement analysis using a pre-computed reference model. Genotype data for 10,000 exonic SNPs are provided in input to EthSEQ in VCF format. Multi-step refinement tree is constructed as a matrix. Non-empty cells in columns i contains parent nodes for non-empty cells in columns i+1. Ancestry groups in child nodes should be included in parent nodes, while siblings node ancestry groups should be disjoint. Consult EthSEQ papers for more details.
 
 ```{r,eval=FALSE}
 library(EthSEQ)
 
-out.dir = file.path(tempdir(),"EthSEQ_Analysis")
-data.dir = file.path(tempdir(),"EthSEQ_Data")
-
-## Download genotype data in VCF format
-dir.create(data.dir)
-download.file("https://github.com/aromanel/EthSEQ_Data/raw/master/Target_SS2_10000SNPs.gds",
-  destfile = file.path(data.dir,"Target_SS2_10000SNPs.gds"))
-
 ## Create multi-step refinement matrix
 m = matrix("",ncol=2,nrow=2)
-m[1,1] = "SAS|EUR|EAS"
-m[2,2] = "SAS|EUR"
+m[1,1] = "EUR|AFR|AMR"
+m[2,2] = "EUR|AMR"
 
 ## Run the analysis on a toy example with only 10000 SNPs
 ethseq.Analysis(
-  target.gds = file.path(data.dir,"Target_SS2_10000SNPs.gds"),
-  out.dir = out.dir,
-  model.gds = system.file("extdata","Reference_SS2_10000SNPs.gds",
-	package="EthSEQ"),
-  verbose=TRUE,
-  composite.model.call.rate = 1,
+  target.vcf = system.file("extdata","Samples.HGDP.10000SNPs.vcf",package="EthSEQ"),
+  out.dir = file.path(tempdir(),"EthSEQ_Analysis/"),
+  model.available = "Gencode.Exome",
+  verbose = TRUE,
   refinement.analysis = m,
-  space="3D")
+  composite.model.call.rate = 1,
+  space = "3D")
 
 ## Delete analysis folder
-unlink(out.dir,recursive=TRUE)
+unlink(file.path(tempdir(),"EthSEQ_Analysis/"),recursive=TRUE)
 ```
 
 ## Create a reference model from multiple VCF genotype data files
 
-Construction of a reference model from two genotype data files in VCF format and a corresponding annotation files which described ethnicity and sex of each sample contained in the genotype data files.
+Construction of a reference model from two genotype data files in VCF format and a corresponding annotation files which described ancestry and sex of each sample contained in the genotype data files.
 
 ```{r,eval=FALSE}
 library(EthSEQ)
 
-out.dir = tempdir()
-dir.create(out.dir)
-
 ### Load list of VCF files paths
-vcf.files = 
-  c(system.file("extdata", "VCF_Test_1.vcf", package="EthSEQ"),
-    system.file("extdata", "VCF_Test_2.vcf", package="EthSEQ"))
+vcf.files = c(system.file("extdata","RefSample1.vcf", package="EthSEQ"),
+             	system.file("extdata","RefSample2.vcf", package="EthSEQ"))
 
 ### Load samples annotations
-annot.samples = read.delim(system.file("extdata", "Annotations_Test.txt",
-	package="EthSEQ"))
+annot.samples = read.delim(system.file("extdata","Annotations_Test_v3.txt",package="EthSEQ"))
 
 ### Create reference model
 ethseq.RM(
   vcf.fn = vcf.files,
   annotations = annot.samples,
-  out.dir = out.dir,
-  model.name = "Reference.Model",
+  out.dir = file.path(tempdir(),"EthSEQ_Analysis/"),
+  model.name = "Reference.Gencode.Exome.10000SNPs",
   bed.fn = NA,
   call.rate = 1,
   cores = 1)
 
 ## Delete example file
-unlink(out.dir,recursive=TRUE)
+unlink(file.path(tempdir(),"EthSEQ_Analysis/"),recursive=TRUE)
 ```
 

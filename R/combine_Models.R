@@ -19,7 +19,7 @@
     # reference.sign = paste(read.gdsn(index.gdsn(reference.model,'snp.chromosome')),read.gdsn(index.gdsn(reference.model,'snp.position')),sep=":")
     # ref.idx = reference.sign%in%target.sign
     # snp.ref = read.gdsn(index.gdsn(reference.model,'snp.ref'))[ref.idx]
-    # snp.alt = read.gdsn(index.gdsn(reference.model,'snp.alt'))[ref.idx⎄]
+    # snp.alt = read.gdsn(index.gdsn(reference.model,'snp.alt'))[ref.idx]
     
     sample.annot <- rbind(target.sample.annot,reference.sample.annot)
     add.gdsn(genofile,"sample.annot",sample.annot)

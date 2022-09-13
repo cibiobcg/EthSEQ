@@ -2,14 +2,30 @@
 % Please edit documentation in R/ethseq_Analysis.R
 \name{ethseq.Analysis}
 \alias{ethseq.Analysis}
-\title{Ethnicity analysis from whole-exome sequencing data}
+\title{Ancestry analysis from whole-exome and targeted sequencing data}
 \usage{
-ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
-  out.dir = "/tmp", model.gds = NA, model.available = NA,
-  model.folder = "/tmp", run.genotype = FALSE, aseq.path = "/tmp",
-  mbq = 20, mrq = 20, mdc = 10, cores = 1, verbose = TRUE,
-  composite.model.call.rate = 1, refinement.analysis = NA, space = "2D",
-  bam.chr.encoding = FALSE)
+ethseq.Analysis(
+  target.vcf = NA,
+  target.gds = NA,
+  bam.list = NA,
+  out.dir = "/tmp",
+  model.gds = NA,
+  model.available = NA,
+  model.assembly = "hg38",
+  model.pop = "All",
+  model.folder = "/tmp",
+  run.genotype = FALSE,
+  aseq.path = "/tmp",
+  mbq = 20,
+  mrq = 20,
+  mdc = 10,
+  cores = 1,
+  verbose = TRUE,
+  composite.model.call.rate = 1,
+  refinement.analysis = NA,
+  space = "2D",
+  bam.chr.encoding = FALSE
+)
 }
 \arguments{
 \item{target.vcf}{Path to the sample's genotypes in VCF format}
@@ -22,29 +38,33 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 
 \item{model.gds}{Path to a GDS file specifying the reference model}
 
-\item{model.available}{String specifying the pre-computed reference model to use (SS2,SS4,NimblegenV3,HALO,Exonic)}
+\item{model.available}{String specifying the pre-computed reference model to use}
 
-\item{model.folder}{Path to the folder where reference models are already present of downloaded when needed}
+\item{model.assembly}{String value indicating the assembly version to download for the pre-build models}
 
-\item{run.genotype}{Logical values indicating wheter the ASEQ genotype should be run}
+\item{model.pop}{String value indicating the population to download for the pre-build models}
 
-\item{aseq.path}{Path to the folder where ASEQ binary is available of is downloaded when needed}
+\item{model.folder}{Path to the folder where reference models are already present or downloaded when needed}
+
+\item{run.genotype}{Logical values indicating whether the ASEQ genotype should be run}
+
+\item{aseq.path}{Path to the folder where ASEQ binary is available or is downloaded when needed}
 
 \item{mbq}{Minmum base quality used in the pileup by ASEQ}
 
 \item{mrq}{Minimum read quality used in the piluep by ASEQ}
 
-\item{mdc}{Minimum read count accettable for genotype inference by ASEQ}
+\item{mdc}{Minimum read count acceptable  for genotype inference by ASEQ}
 
 \item{cores}{Number of parallel cores used for the analysis}
 
-\item{verbose}{Print detaild information}
+\item{verbose}{Print detailed information}
 
 \item{composite.model.call.rate}{SNP call rate used to run Principal Component Analysis (PCA)}
 
-\item{refinement.analysis}{Matrix specyfing a tree of ethnicities}
+\item{refinement.analysis}{Matrix specifying a tree of ancestry sets}
 
-\item{space}{Dimensions of PCA space used to infer ethnicity (2D or 3D)}
+\item{space}{Dimensions of PCA space used to infer ancestry (2D or 3D)}
 
 \item{bam.chr.encoding}{Logical value indicating whether input BAM files have chromosomes encoded with "chr" prefix}
 }
@@ -52,5 +72,5 @@ ethseq.Analysis(target.vcf = NA, target.gds = NA, bam.list = NA,
 Logical value indicating the success of the analysis
 }
 \description{
-This function performs ethnicity analysis of a set of samples ad reports the results.
+This function performs ancestry analysis of a set of samples ad reports the results.
 }
