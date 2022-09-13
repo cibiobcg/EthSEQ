@@ -1,15 +1,17 @@
-#' Ethnicity analysis from whole-exome sequencing data
+#' Ancestry analysis from whole-exome and targeted sequencing data
 #'
-#' This function performs ethnicity analysis of a set of samples ad reports the results.
+#' This function performs ancestry analysis of a set of samples ad reports the results.
 #'
 #' @param target.vcf Path to the sample's genotypes in VCF format
 #' @param target.gds Path to the sample's genotypes in GDS format
 #' @param bam.list Path to a file containing a list of BAM files paths
 #' @param out.dir Path to the folder where the output of the analysis is saved
 #' @param model.gds Path to a GDS file specifying the reference model
-#' @param model.available String specifying the pre-computed reference model to use (SS2,SS4,NimblegenV3,HALO,Exonic)
+#' @param model.available String specifying the pre-computed reference model to use
+#' @param model.assembly String value indicating the assembly version to download for the pre-build models
+#' @param model.pop String value indicating the population to download for the pre-build models
 #' @param model.folder Path to the folder where reference models are already present or downloaded when needed
-#' @param run.genotype Logical values indicating wheter the ASEQ genotype should be run
+#' @param run.genotype Logical values indicating whether the ASEQ genotype should be run
 #' @param aseq.path Path to the folder where ASEQ binary is available or is downloaded when needed
 #' @param mbq Minmum base quality used in the pileup by ASEQ
 #' @param mrq Minimum read quality used in the piluep by ASEQ
@@ -17,11 +19,9 @@
 #' @param cores Number of parallel cores used for the analysis
 #' @param verbose Print detailed information
 #' @param composite.model.call.rate SNP call rate used to run Principal Component Analysis (PCA)
-#' @param refinement.analysis Matrix specifying a tree of ethnicities
-#' @param space Dimensions of PCA space used to infer ethnicity (2D or 3D)
+#' @param refinement.analysis Matrix specifying a tree of ancestry sets
+#' @param space Dimensions of PCA space used to infer ancestry (2D or 3D)
 #' @param bam.chr.encoding Logical value indicating whether input BAM files have chromosomes encoded with "chr" prefix
-#' @param model.assembly String value indicating the assembly version to download for the pre-build models
-#' @param model.pop String value indicating the population to download for the pre-build models
 #' @return Logical value indicating the success of the analysis
 #' @export
 

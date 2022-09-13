@@ -1,12 +1,12 @@
 Package: EthSEQ
 Type: Package
 Title: Ethnicity Annotation from Whole Exome Sequencing Data
-Version: 2.1.4
+Version: 3.0.0
 Authors@R: c(person("Alessandro", "Romanel", email = "alessandro.romanel@unitn.it",
                   role = c("aut", "cre")),
              person("Davide","Dalfovo", email = "davide.dalfovo@unitn.it",
-                  role = "ctb"))
-Description: Reliable and rapid ethnicity annotation from whole exome sequencing data.
+                  role = c("aut", "cre")))
+Description: Reliable and rapid ethnicity annotation from whole exome and targeted sequencing data.
 License: GPL-3
 Depends:
     R (>= 2.15)

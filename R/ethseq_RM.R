@@ -1,9 +1,9 @@
-#' Create Reference Model for Ethnicity Analysis
+#' Create Reference Model for Ancestry Analysis
 #'
-#' This function creates a GDS reference model that can be used to performe EthSEQ ethnicity analysis
+#' This function creates a GDS reference model that can be used to performe EthSEQ ancestry analysis
 #'
 #' @param vcf.fn vector of paths to genotype files in VCF format
-#' @param annotations data.frame with mapping of all samples names, ethnicities and gender
+#' @param annotations data.frame with mapping of all samples names, ancestries and gender
 #' @param out.dir Path to output folder
 #' @param model.name Name of the output model
 #' @param bed.fn path to BED file with regions of interest

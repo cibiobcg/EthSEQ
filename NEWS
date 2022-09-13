@@ -2,10 +2,10 @@
 
 == Changes in EthSEQ 3.0.0
 
-* The VCF files are now parsed. Added function to perform a fast parse of the VCF file, using C++.
+* Added function to perform a fast parse of the VCF file, using C++.
+* New collection of reference models.
 * Added hg19/38 parameter.
-* Added population selection for models.
-* Rebuild reference models.
+* Added major population selection for reference models.
 
 == Changes in EthSEQ 2.1.4
 
