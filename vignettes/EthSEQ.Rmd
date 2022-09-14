@@ -1,6 +1,6 @@
 ---
 title: "EthSEQ: Ethnicity Annotation from Whole Exome Sequencing Data"
-author: "Alessandro Romanel"
+author: "Alessandro Romanel, Davide Dalfovo"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
