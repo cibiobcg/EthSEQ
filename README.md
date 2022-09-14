@@ -1,4 +1,4 @@
-# EthSEQ: ethnicity annotations from whole exome sequencing data
+# EthSEQ: ethnicity annotations from whole-exome and targeted sequencing data
 
 Whole-exome sequencing (WES) and targeted sequencing (TS) are widely utilized both in translational cancer genomics studies and in the setting of precision medicine. Stratification of individuals' ethnicity/ancestry is fundamental for the correct interpretation of personal genomic variation impact. We implemented EthSEQ to provide reliable and rapid ancestry annotation from whole -exome and targeted sequencing data. EthSEQ can be integrated into any WES or TS based processing pipeline and exploits multi-core capabilities.
 

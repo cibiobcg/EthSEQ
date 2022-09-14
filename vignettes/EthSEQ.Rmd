@@ -1,10 +1,10 @@
 ---
-title: "EthSEQ: Ethnicity Annotation from Whole Exome Sequencing Data"
+title: "EthSEQ: Ethnicity Annotation from Whole-Exome and Targeted Sequencing Data"
 author: "Alessandro Romanel, Davide Dalfovo"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{EthSEQ: Ethnicity Annotation from Whole Exome Sequencing Data}
+  %\VignetteIndexEntry{EthSEQ: Ethnicity Annotation from Whole-Exome and Targeted Sequencing Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
