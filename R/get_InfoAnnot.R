@@ -2,8 +2,6 @@
 #'
 #' This function prints the list of all available models.
 #'
-#' @param assembly Human genome assembly to use: hg19 or hg38
-#' @param pop population to use: All, AFR, AMR, EAS, EUR or SAS
 #' @return data.frame of all available models to use with specified assembly and population
 #' @export
 

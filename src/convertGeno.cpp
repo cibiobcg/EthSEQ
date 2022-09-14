@@ -34,11 +34,6 @@ int conversionFormat(char* geno){
   }
 }
 
-//' Converts genotype
-//'
-//' @param df dataframe
-//' @param ab StringVector
-//' @return boolean
 // [[Rcpp::export]]
 bool convertGeno(DataFrame& df, StringVector& ab) {
   int nr = df.nrows(), nc= df.size(), idxGT;
@@ -54,7 +49,7 @@ bool convertGeno(DataFrame& df, StringVector& ab) {
       try {
         idxGT = indexGT(c);
       } catch (std::invalid_argument& e) {
-        fprintf(stdout,"%s\n",e.what());
+        Rprintf("%s\n",e.what());
         return false;
       }
       StringVector cv8 = df[i];
