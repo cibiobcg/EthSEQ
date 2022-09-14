@@ -32,7 +32,7 @@ ethseq.Analysis(
   space = "3D")
 
 ## Load and display computed ethnicity annotations
-ethseq.annotations = read.delim(file.path(tempdir(),"thSEQ_Analysis/Report.txt"),
+ethseq.annotations = read.delim(file.path(tempdir(),"EthSEQ_Analysis/Report.txt"),
 	sep="\t",as.is=TRUE,header=TRUE)
 head(ethseq.annotations)
 
