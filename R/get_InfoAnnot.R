@@ -10,7 +10,6 @@ getModelsList <- function()
   exKit = system.file("extdata", "exonic_kits_map.tsv",
                       package="EthSEQ")
   df = fread(exKit,data.table = F)
-  # df = df[sapply(strsplit(df$assembly,","),function(obj){any(obj==assembly)})&sapply(strsplit(df$pop,","),function(obj){any(obj==pop)}),]
   return(df)
 }
 
