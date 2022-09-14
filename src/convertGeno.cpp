@@ -37,7 +37,7 @@ int conversionFormat(char* geno){
 // [[Rcpp::export]]
 bool convertGeno(DataFrame& df, StringVector& ab) {
   int nr = df.nrows(), nc= df.size(), idxGT;
-  int mafCnt[nr][3];
+  double mafCnt[nr][3];
   String ba = "B/A"; 
   for(int i=8; i<nc; i++) {
     if(i==8){
