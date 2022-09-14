@@ -16,7 +16,7 @@ getModelsList <- function()
 
 #' List the samples annotation
 #'
-#' This function prints the list of all available samples used to build the reference models.
+#' This function prints the list of 1,000 Genomes Project samples used to build the reference models.
 #'
 #' @export
 getSamplesInfo <- function()

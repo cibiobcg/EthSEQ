@@ -18,13 +18,12 @@ EthSEQ requires genotype data at SNPs positions for a set of individuals with kn
 
 Analysis of target individuals genotype data exploiting a reference model built from 1,000 Genome Project genotype data. Genotype data for 10,000 exonic SNPs are provided in input to EthSEQ in VCF format while the reference model is provided in GDS format and describes genotype data for 1,000 Genome Project individuals for the same SNPs set. 
 
-```{r,eval=TRUE}
+```{r}
 library(EthSEQ)
 
 ## Run the analysis
 ethseq.Analysis(
-  target.vcf = system.file("extdata", "Samples.HGDP.10000SNPs.vcf",
-  package="EthSEQ"),
+  target.vcf = system.file("extdata", "Samples.HGDP.10000SNPs.vcf",package="EthSEQ"),
   model.gds = system.file("extdata", "Reference.Gencode.Exome.10000SNPs.gds",package="EthSEQ"),
   out.dir = file.path(tempdir(),"EthSEQ_Analysis/"),
   verbose=TRUE,
