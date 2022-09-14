@@ -1,6 +1,6 @@
 Package: EthSEQ
 Type: Package
-Title: Ethnicity Annotation from Whole-Exome and Targeted Sequencing Data
+Title:Ethnicity Annotation from Whole-Exome and Targeted Sequencing Data
 Version: 3.0.0
 Authors@R: c(person("Alessandro", "Romanel", email = "alessandro.romanel@unitn.it",
                   role = c("aut", "cre")),
