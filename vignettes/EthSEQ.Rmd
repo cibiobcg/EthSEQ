@@ -166,7 +166,7 @@ ethseq.RM(
   vcf.fn = vcf.files,
   annotations = annot.samples,
   out.dir = file.path(tempdir(),"EthSEQ_Analysis/"),
-  model.name = "Reference.Gencode.Exome.10000SNPs",
+  model.name = "Reference.Model",
   bed.fn = NA,
   call.rate = 1,
   cores = 1)
