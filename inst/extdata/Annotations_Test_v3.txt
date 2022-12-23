@@ -1,4 +1,4 @@
-sample	pop	gender
+sample	pop	sex
 HG00096	EUR	M
 HG00100	EUR	F
 HG00101	EUR	M

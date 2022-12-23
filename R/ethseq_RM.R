@@ -3,7 +3,7 @@
 #' This function creates a GDS reference model that can be used to performe EthSEQ ancestry analysis
 #'
 #' @param vcf.fn vector of paths to genotype files in VCF format
-#' @param annotations data.frame with mapping of all samples names, ancestries and gender
+#' @param annotations data.frame with mapping of all samples names, ancestries and sex
 #' @param out.dir Path to output folder
 #' @param model.name Name of the output model
 #' @param bed.fn path to BED file with regions of interest
@@ -198,7 +198,7 @@ ethseq.RM <- function(
   isort = match(sample.id,annotations$sample)
   annotations = annotations[isort,]
   
-  sample.annot <- data.frame(pop.group=annotations$pop,sex=annotations$gender)
+  sample.annot <- data.frame(pop.group=annotations$pop,sex=annotations$sex)
   add.gdsn(genofile,"sample.annot",sample.annot)
   
   signature.aggregated = paste(read.gdsn(index.gdsn(genofile,'snp.chromosome')),
