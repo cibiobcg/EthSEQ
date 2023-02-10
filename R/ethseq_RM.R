@@ -17,7 +17,7 @@
 ethseq.RM <- function(
   vcf.fn,
   annotations,
-  out.dir = "./",
+  out.dir = tempdir(),
   model.name = "Reference.Model",
   bed.fn = NA,
   verbose = TRUE,
