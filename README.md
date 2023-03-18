@@ -174,6 +174,10 @@ unlink(file.path(tempdir(),"EthSEQ_Analysis/"),recursive=TRUE)
 
 ## Reference paper
 
+**Analysis of Genetic Ancestry from NGS Data Using EthSEQ.**\
+Davide Dalfovo, Alessandro Romanel.\
+Current Protocols, 2023.
+
 **EthSEQ: ethnicity annotation from whole exome sequencing data**\
 Alessandro Romanel#, Tuo Zhang, Olivier Elemento, Francesca Demichelis#\
 Bioinformatics, 33(15):2402-2404, 2017
