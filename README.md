@@ -172,7 +172,7 @@ ethseq.RM(
 unlink(file.path(tempdir(),"EthSEQ_Analysis/"),recursive=TRUE)
 ```
 
-## Reference paper
+## Reference papers
 
 **Analysis of Genetic Ancestry from NGS Data Using EthSEQ.**\
 Davide Dalfovo, Alessandro Romanel.\
